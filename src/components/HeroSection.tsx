@@ -100,32 +100,45 @@ export default function HeroSection() {
         />
       </div>
 
+      {/* Top Right Logos */}
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        className="absolute top-6 right-6 flex items-center gap-3 z-10"
+      >
+        <Image
+          src="/images/csgc-logo.png"
+          alt="CSGC"
+          width={36}
+          height={36}
+          className="rounded-full border border-white/10"
+        />
+        <Image
+          src="/images/FFMC.png"
+          alt="FFMC"
+          width={36}
+          height={36}
+          className="rounded-full border border-white/10"
+        />
+        <Image
+          src="/images/FFMIC.png"
+          alt="FFMIC"
+          width={36}
+          height={36}
+          className="rounded-full border border-white/10"
+        />
+        <Image
+          src="/images/iar-logo.png"
+          alt="IAR"
+          width={36}
+          height={36}
+          className="rounded-full border border-white/10"
+        />
+      </motion.div>
+
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center px-5 w-full max-w-3xl mx-auto pt-20 pb-16">
-        {/* Logos */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: [0.34, 1.56, 0.64, 1] }}
-          className="flex items-center gap-3 mb-6 sm:mb-8"
-        >
-          <Image
-            src="/images/csgc-logo.png"
-            alt="CSGC"
-            width={40}
-            height={40}
-            className="rounded-full border border-white/10"
-          />
-          <span className="text-white/20 text-lg font-light select-none">/</span>
-          <Image
-            src="/images/iar-logo.png"
-            alt="IAR"
-            width={40}
-            height={40}
-            className="rounded-full border border-white/10"
-          />
-        </motion.div>
-
         {/* Title */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -133,7 +146,7 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
         >
           <p className="text-white/40 text-xs sm:text-sm font-medium tracking-[0.3em] uppercase mb-2">
-            CSGC Presents
+            CSGC x FFMC
           </p>
           <p className="text-white/50 text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase mb-1">
             Ultimate
