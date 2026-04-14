@@ -2,8 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import nodemailer from "nodemailer";
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 async function sendConfirmationEmail(email: string, teamName: string, leaderName: string) {
   try {
+    const safeLeaderName = escapeHtml(leaderName);
+    const safeTeamName = escapeHtml(teamName);
+    
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || "smtp-relay.brevo.com",
       port: parseInt(process.env.SMTP_PORT || "587"),
@@ -22,8 +34,8 @@ async function sendConfirmationEmail(email: string, teamName: string, leaderName
           <h1 style="color: white; margin: 0; font-size: 28px;">🎮 You're In!</h1>
         </div>
         <div style="background: #1a1a2e; padding: 30px; border-radius: 0 0 16px 16px;">
-          <p style="color: #ededed; font-size: 18px;">Hi ${leaderName},</p>
-          <p style="color: #a0a0a0; font-size: 16px;">Your team <strong style="color: #ff6a00;">${teamName}</strong> has been registered successfully!</p>
+          <p style="color: #ededed; font-size: 18px;">Hi ${safeLeaderName},</p>
+          <p style="color: #a0a0a0; font-size: 16px;">Your team <strong style="color: #ff6a00;">${safeTeamName}</strong> has been registered successfully!</p>
           
           <div style="background: rgba(255,106,0,0.1); border: 1px solid rgba(255,106,0,0.3); border-radius: 12px; padding: 20px; margin: 20px 0;">
             <h3 style="color: #ff6a00; margin: 0 0 10px 0;">📋 Event Details</h3>
