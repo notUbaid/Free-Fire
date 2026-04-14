@@ -1,8 +1,15 @@
--- ============================================================
--- CSGC Free Fire Tournament Database Schema
--- ============================================================
+-- Clean up existing policies and tables (run first if you have issues)
+DROP POLICY IF EXISTS "Allow anonymous registration" ON registrations;
+DROP POLICY IF EXISTS "Allow read for duplicate check" ON registrations;
+DROP POLICY IF EXISTS "Allow public read on scores" ON team_scores;
+DROP POLICY IF EXISTS "Allow score creation" ON team_scores;
+DROP POLICY IF EXISTS "Allow score update" ON team_scores;
 
--- Create registrations table (teams register here first)
+-- Drop existing tables if fresh start
+-- DROP TABLE IF EXISTS registrations CASCADE;
+-- DROP TABLE IF EXISTS team_scores CASCADE;
+
+-- ===== REGISTRATIONS TABLE =====
 CREATE TABLE IF NOT EXISTS registrations (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   team_name TEXT UNIQUE NOT NULL,
@@ -19,11 +26,11 @@ CREATE TABLE IF NOT EXISTS registrations (
   player4_name TEXT,
   player4_phone TEXT,
   player4_school TEXT,
-  approved BOOLEAN DEFAULT FALSE,  -- Must be approved to appear in scoreboard
+  approved BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Create team_scores table (only approved teams go here)
+-- ===== TEAM SCORES TABLE =====
 CREATE TABLE IF NOT EXISTS team_scores (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   team_name TEXT UNIQUE NOT NULL,
@@ -35,34 +42,17 @@ CREATE TABLE IF NOT EXISTS team_scores (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Enable Row Level Security
+-- ===== RLS =====
 ALTER TABLE registrations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE team_scores ENABLE ROW LEVEL SECURITY;
 
--- ============================================================
--- RLS Policies
--- ============================================================
+-- Policies
+CREATE POLICY "Allow registration" ON registrations FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "Allow duplicate check" ON registrations FOR SELECT TO anon USING (true);
+CREATE POLICY "Allow score read" ON team_scores FOR SELECT TO anon USING (true);
+CREATE POLICY "Allow score insert" ON team_scores FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "Allow score update" ON team_scores FOR UPDATE TO anon USING (true);
 
--- Public can register (insert new team)
-CREATE POLICY "Allow anonymous registration" ON registrations
-  FOR INSERT TO anon WITH CHECK (true);
-
--- Public can check for duplicates (team name + email)
-CREATE POLICY "Allow read for duplicate check" ON registrations
-  FOR SELECT TO anon USING (true);
-
--- Public can view scoreboard
-CREATE POLICY "Allow public read on scores" ON team_scores
-  FOR SELECT TO anon USING (true);
-
--- Admin-only operations (managed via API routes with password)
--- These policies allow the service role to manage data
-
--- ============================================================
--- NOTES FOR ADMIN
--- ============================================================
--- 1. New registrations appear in /admin as "Pending"
--- 2. Click "Approve" to add team to scoreboard
--- 3. Approved teams appear in /scoremanager for score management
--- 4. Only teams in team_scores show on /score public page
--- ============================================================
+-- Indexes
+CREATE INDEX IF NOT EXISTS idx_registrations_approved ON registrations(approved);
+CREATE INDEX IF NOT EXISTS idx_team_scores_points ON team_scores(total_points DESC);

@@ -75,6 +75,20 @@ function ScoreManagerPage() {
     }
   };
 
+  const removeFromScores = async (teamName: string) => {
+    if (!confirm(`Remove ${teamName} from scoreboard?`)) return;
+    
+    const res = await fetch("/api/scores-remove", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ teamName, password }),
+    });
+
+    if (res.ok) {
+      setTeams(teams.filter(t => t.team_name !== teamName));
+    }
+  };
+
   if (!authenticated) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
@@ -117,6 +131,7 @@ function ScoreManagerPage() {
                   <th className="text-left p-3 text-gray-400 font-medium">Total</th>
                   <th className="text-left p-3 text-gray-400 font-medium">Rounds</th>
                   <th className="text-left p-3 text-gray-400 font-medium">Status</th>
+                  <th className="text-left p-3 text-gray-400 font-medium">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -160,6 +175,14 @@ function ScoreManagerPage() {
                         }`}
                       >
                         {team.eliminated ? "Eliminated" : "Active"}
+                      </button>
+                    </td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => removeFromScores(team.team_name)}
+                        className="text-red-500 hover:text-red-400 text-xs"
+                      >
+                        Remove
                       </button>
                     </td>
                   </tr>
