@@ -12,6 +12,7 @@ const contacts = [
     phone: "+91 63542 72295",
     whatsapp: "916354272295",
     color: "from-ff-orange to-ff-red",
+    image: "Ved",
   },
   {
     name: "Digvijay",
@@ -19,6 +20,7 @@ const contacts = [
     phone: "+91 6352 269 653",
     whatsapp: "916352269653",
     color: "from-purple-500 to-indigo-600",
+    image: "Digvijay",
   },
   {
     name: "Hemang",
@@ -26,6 +28,7 @@ const contacts = [
     phone: "+91 78599 37175",
     whatsapp: "917859937175",
     color: "from-cyan-500 to-blue-600",
+    image: "Hemang",
   },
 ];
 
@@ -66,10 +69,12 @@ export default function ContactSection() {
               whileHover={{ y: -5, scale: 1.02 }}
               className="group bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-center hover:border-ff-orange/30 transition-all duration-300"
             >
-              <div className={`w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br ${contact.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                <span className="text-3xl font-black text-white">
-                  {contact.name[0]}
-                </span>
+              <div className="w-20 h-20 mx-auto rounded-full mb-4 group-hover:scale-110 transition-transform bg-gradient-to-br from-ff-orange to-ff-red overflow-hidden border-2 border-white/20">
+                {contact.name === "Digvijay" ? (
+                  <img src="/images/Digvijay.webp" alt={contact.name} className="w-full h-full object-cover" />
+                ) : (
+                  <img src={`/images/${contact.image}.jpg`} alt={contact.name} className="w-full h-full object-cover" />
+                )}
               </div>
               <h3 className="text-white font-bold text-lg">{contact.name}</h3>
               <p className="text-white/40 text-xs uppercase tracking-widest mb-4">
