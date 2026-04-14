@@ -163,6 +163,7 @@ export async function POST(request: NextRequest) {
           player4_name: player4_name || null,
           player4_phone: player4_phone || null,
           player4_school: player4_school || null,
+          approved: false,
         },
       ])
       .select()
@@ -175,18 +176,6 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
-
-    // Also insert into scoreboard with default values
-    await supabase.from("team_scores").insert([
-      {
-        team_name,
-        kills: 0,
-        placement_points: 0,
-        total_points: 0,
-        rounds_played: 0,
-        eliminated: false,
-      },
-    ]);
 
     // Registration complete
     return NextResponse.json(

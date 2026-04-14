@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 interface Registration {
   id: string;
@@ -19,11 +18,11 @@ interface Registration {
   player4_name: string | null;
   player4_phone: string | null;
   player4_school: string | null;
+  approved: boolean;
   created_at: string;
 }
 
 function AdminPage() {
-  const router = useRouter();
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -55,9 +54,9 @@ function AdminPage() {
     setLoading(false);
   };
 
-  const deleteRegistration = async (id: string) => {
+const deleteRegistration = async (id: string) => {
     if (!confirm("Delete this registration?")) return;
-
+    
     const res = await fetch("/api/admin-delete", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -66,6 +65,20 @@ function AdminPage() {
 
     if (res.ok) {
       setRegistrations(registrations.filter((r) => r.id !== id));
+    }
+  };
+
+  const approveTeam = async (id: string) => {
+    const res = await fetch("/api/admin-approve", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, password }),
+    });
+
+    if (res.ok) {
+      setRegistrations(registrations.map(r => 
+        r.id === id ? { ...r, approved: true } : r
+      ));
     }
   };
 
@@ -114,6 +127,7 @@ function AdminPage() {
               <thead className="bg-gray-700">
                 <tr>
                   <th className="text-left p-3 text-gray-400 font-medium">Team</th>
+                  <th className="text-left p-3 text-gray-400 font-medium">Status</th>
                   <th className="text-left p-3 text-gray-400 font-medium">Leader</th>
                   <th className="text-left p-3 text-gray-400 font-medium">Email</th>
                   <th className="text-left p-3 text-gray-400 font-medium">Phone</th>
@@ -126,6 +140,18 @@ function AdminPage() {
                 {registrations.map((reg) => (
                   <tr key={reg.id} className="border-t border-gray-700">
                     <td className="p-3 text-orange-500 font-bold">{reg.team_name}</td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => approveTeam(reg.id)}
+                        className={`px-2 py-1 rounded text-xs ${
+                          reg.approved 
+                            ? "bg-green-600 text-white" 
+                            : "bg-yellow-600 text-black"
+                        }`}
+                      >
+                        {reg.approved ? "Approved" : "Pending"}
+                      </button>
+                    </td>
                     <td className="p-3 text-white">{reg.leader_name}</td>
                     <td className="p-3 text-gray-300">{reg.leader_email}</td>
                     <td className="p-3 text-gray-300">{reg.leader_phone}</td>
