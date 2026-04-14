@@ -70,7 +70,7 @@ export default function ContactSection() {
               className="group bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-center hover:border-ff-orange/30 transition-all duration-300"
             >
 <div className="w-20 h-20 mx-auto rounded-full mb-4 group-hover:scale-110 transition-transform bg-gradient-to-br from-ff-orange to-ff-red overflow-hidden border-2 border-white/20">
-                  <img src={`/images/${contact.image}.jpeg`} alt={contact.name} className="w-full h-full object-cover" />
+                  <img src={`/images/${contact.image}${contact.image === 'Digvijay' ? '.jpeg' : '.jpg'}`} alt={contact.name} className="w-full h-full object-cover" />
                 </div>
               <h3 className="text-white font-bold text-lg">{contact.name}</h3>
               <p className="text-white/40 text-xs uppercase tracking-widest mb-4">
