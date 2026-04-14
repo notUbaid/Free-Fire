@@ -67,13 +67,25 @@ function AdminPage() {
   };
 
   const approveTeam = async (id: string) => {
-    const res = await fetch("/api/admin-approve", {
+    const res = await fetch("/api/admin-update", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, password }),
+      body: JSON.stringify({ id, data: { approved: true }, password }),
     });
     if (res.ok) {
       setRegistrations(registrations.map(r => r.id === id ? { ...r, approved: true } : r));
+    }
+  };
+
+  const unapproveTeam = async (id: string) => {
+    if (!confirm("Remove from scoreboard? This will hide them from /scoremanager and /score")) return;
+    const res = await fetch("/api/admin-update", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, data: { approved: false }, password }),
+    });
+    if (res.ok) {
+      setRegistrations(registrations.map(r => r.id === id ? { ...r, approved: false } : r));
     }
   };
 
@@ -152,12 +164,12 @@ function AdminPage() {
                     <td className="p-3 text-orange-500 font-bold">{reg.team_name}</td>
                     <td className="p-3">
                       <button
-                        onClick={() => approveTeam(reg.id)}
+                        onClick={() => reg.approved ? unapproveTeam(reg.id) : approveTeam(reg.id)}
                         className={`px-2 py-1 rounded text-xs ${
                           reg.approved ? "bg-green-600 text-white" : "bg-yellow-600 text-black"
                         }`}
                       >
-                        {reg.approved ? "Approved" : "Pending"}
+                        {reg.approved ? "✓ Approved" : "Pending"}
                       </button>
                     </td>
                     <td className="p-3 text-white">{reg.leader_name}</td>
