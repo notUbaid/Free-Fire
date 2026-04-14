@@ -15,12 +15,12 @@ const contacts = [
     image: "Ved",
   },
   {
-    name: "Digvijay",
-    role: "Main Coordinator",
-    phone: "+91 6352 269 653",
-    whatsapp: "916352269653",
+    name: "Aditya",
+    role: "Gaming Head",
+    phone: "+91 95860 58333",
+    whatsapp: "919586058333",
     color: "from-purple-500 to-indigo-600",
-    image: "Digvijay",
+    image: "Aditya",
   },
   {
     name: "Hemang",
