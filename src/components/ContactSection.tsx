@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Phone, MapPin, MessageCircle } from "lucide-react";
+import Image from "next/image";
 
 const contacts = [
   {
@@ -69,9 +70,12 @@ export default function ContactSection() {
               className="group bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-center hover:border-ff-orange/30 transition-all duration-300"
             >
               <div className="w-20 h-20 mx-auto rounded-2xl overflow-hidden mb-4 group-hover:scale-110 transition-transform border-2 border-white/20">
-                <img
+                <Image
                   src={contact.image}
                   alt={contact.name}
+                  width={80}
+                  height={80}
+                  unoptimized
                   className="w-full h-full object-cover"
                 />
               </div>
