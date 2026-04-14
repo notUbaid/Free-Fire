@@ -108,8 +108,8 @@ export default function AboutSection() {
           <div className="relative group">
             <div className="absolute -inset-2 bg-ff-maroon/20 rounded-full blur-xl group-hover:bg-ff-maroon/30 transition-colors" />
             <Image
-              src="/images/FFMC.png"
-              alt="FFMC Logo"
+              src="/images/FFMIC.png"
+              alt="FFMIC Logo"
               width={80}
               height={80}
               className="relative rounded-full border-2 border-ff-maroon/40 sm:w-[100px] sm:h-[100px]"
