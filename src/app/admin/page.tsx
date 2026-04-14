@@ -124,10 +124,11 @@ function AdminPage() {
     doc.text(`Total Teams: ${registrations.length} | Date: ${new Date().toLocaleDateString()}`, 105, 28, { align: "center" });
     
     let y = 40;
-    const pageHeight = 280;
     
     registrations.forEach((reg, i) => {
-      if (y > pageHeight) {
+      const linesNeeded = reg.player4_name ? 55 : 50;
+      
+      if (y + linesNeeded > 280) {
         doc.addPage();
         y = 20;
       }
@@ -157,7 +158,7 @@ function AdminPage() {
         doc.text(`Player 4: ${reg.player4_name} (${reg.player4_phone}) - ${reg.player4_school}`, 14, y);
       }
       
-      y += 12;
+      y += 10;
     });
     
     doc.save(`registrations-${new Date().toISOString().split('T')[0]}.pdf`);
