@@ -24,7 +24,7 @@ export default function Footer() {
               className="rounded-full border border-ff-maroon/20"
             />
             <div className="ml-2">
-              <p className="text-white font-bold text-sm">IAR × FFMIC</p>
+              <p className="text-white font-bold text-sm">IAR × FFMC</p>
               <p className="text-white/30 text-xs">Institute of Advanced Research</p>
             </div>
           </div>
