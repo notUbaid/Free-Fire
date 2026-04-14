@@ -61,9 +61,9 @@ async function sendConfirmationEmail(email: string, teamName: string, leaderName
       html: htmlContent,
     });
 
-    console.log("Confirmation email sent to", email);
+    console.log("Email sent successfully to", email);
   } catch (err) {
-    console.error("Failed to send email:", err);
+    console.error("EMAIL_ERROR:", err);
   }
 }
 
