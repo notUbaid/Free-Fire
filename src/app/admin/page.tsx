@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { jsPDF } from "jspdf";
 
 interface Registration {
   id: string;
@@ -111,6 +112,57 @@ function AdminPage() {
     setEditData({});
   };
 
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+    
+    doc.setFontSize(20);
+    doc.setTextColor(255, 106, 0);
+    doc.text("Free Fire MAX Tournament - Registrations", 105, 20, { align: "center" });
+    
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text(`Total Teams: ${registrations.length} | Date: ${new Date().toLocaleDateString()}`, 105, 28, { align: "center" });
+    
+    let y = 40;
+    const pageHeight = 280;
+    
+    registrations.forEach((reg, i) => {
+      if (y > pageHeight) {
+        doc.addPage();
+        y = 20;
+      }
+      
+      doc.setFontSize(12);
+      doc.setTextColor(255, 106, 0);
+      doc.text(`${i + 1}. ${reg.team_name}`, 14, y);
+      
+      doc.setFontSize(10);
+      doc.setTextColor(reg.approved ? 0 : 200, reg.approved ? 150 : 100, 0);
+      doc.text(`Status: ${reg.approved ? "Approved" : "Pending"}`, 14, y + 6);
+      
+      doc.setTextColor(0);
+      doc.text(`Leader: ${reg.leader_name}`, 14, y + 12);
+      doc.text(`Phone: ${reg.leader_phone}`, 14, y + 18);
+      doc.text(`Email: ${reg.leader_email}`, 14, y + 24);
+      doc.text(`School: ${reg.leader_school}`, 14, y + 30);
+      
+      y += 38;
+      doc.setFontSize(9);
+      doc.setTextColor(100);
+      doc.text(`Player 2: ${reg.player2_name} (${reg.player2_phone}) - ${reg.player2_school}`, 14, y);
+      y += 5;
+      doc.text(`Player 3: ${reg.player3_name} (${reg.player3_phone}) - ${reg.player3_school}`, 14, y);
+      if (reg.player4_name) {
+        y += 5;
+        doc.text(`Player 4: ${reg.player4_name} (${reg.player4_phone}) - ${reg.player4_school}`, 14, y);
+      }
+      
+      y += 12;
+    });
+    
+    doc.save(`registrations-${new Date().toISOString().split('T')[0]}.pdf`);
+  };
+
   if (!authenticated) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
@@ -142,9 +194,14 @@ function AdminPage() {
       <div className="max-w-full mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold text-white">📊 Admin Panel</h1>
-          <button onClick={() => window.location.reload()} className="text-orange-500 text-sm hover:underline">
-            Refresh
-          </button>
+          <div className="flex gap-3">
+            <button onClick={downloadPDF} className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg">
+              Download
+            </button>
+            <button onClick={() => window.location.reload()} className="text-orange-500 text-sm hover:underline">
+              Refresh
+            </button>
+          </div>
         </div>
 
         <div className="bg-gray-800 rounded-xl overflow-hidden">
