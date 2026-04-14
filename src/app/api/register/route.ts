@@ -144,6 +144,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check if registration is full (36 teams max)
+    const { count } = await supabase
+      .from("registrations")
+      .select("*", { count: "exact", head: true });
+
+    if (count !== null && count >= 36) {
+      return NextResponse.json(
+        { error: "Registrations are full. Maximum 36 teams allowed." },
+        { status: 403 }
+      );
+    }
+
     // Insert registration
     const { data, error } = await supabase
       .from("registrations")
