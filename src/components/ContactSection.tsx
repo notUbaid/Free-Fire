@@ -24,7 +24,7 @@ const contacts = [
   },
   {
     name: "Ubaid",
-    role: "Gaming Head",
+    role: "Coordinator",
     phone: "+91 96244 44730",
     whatsapp: "919624444730",
     color: "from-green-500 to-emerald-600",
