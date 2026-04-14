@@ -12,10 +12,15 @@ function escapeHtml(str: string): string {
 }
 
 async function sendConfirmationEmail(email: string, teamName: string, leaderName: string) {
+  const safeLeaderName = escapeHtml(leaderName);
+  const safeTeamName = escapeHtml(teamName);
+  
+  console.log("Attempting to send email to:", email);
+  console.log("SMTP_HOST:", process.env.SMTP_HOST);
+  console.log("SMTP_USER:", process.env.SMTP_USER ? "set" : "NOT SET");
+  console.log("SMTP_PASS:", process.env.SMTP_PASS ? "set" : "NOT SET");
+  
   try {
-    const safeLeaderName = escapeHtml(leaderName);
-    const safeTeamName = escapeHtml(teamName);
-    
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || "smtp-relay.brevo.com",
       port: parseInt(process.env.SMTP_PORT || "587"),
@@ -24,6 +29,7 @@ async function sendConfirmationEmail(email: string, teamName: string, leaderName
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
       },
+      connectionTimeout: 10000,
     });
 
     const htmlContent = `
@@ -62,8 +68,10 @@ async function sendConfirmationEmail(email: string, teamName: string, leaderName
     });
 
     console.log("Email sent successfully to", email);
-  } catch (err) {
-    console.error("EMAIL_ERROR:", err);
+    return "sent";
+  } catch (err: any) {
+    console.error("EMAIL_ERROR:", err?.message || err);
+    return "failed: " + (err?.message || err);
   }
 }
 
@@ -181,7 +189,8 @@ export async function POST(request: NextRequest) {
     ]);
 
     // Send confirmation email
-    await sendConfirmationEmail(leader_email, team_name, leader_name);
+    const emailResult = await sendConfirmationEmail(leader_email, team_name, leader_name);
+    console.log("Email result:", emailResult);
 
     return NextResponse.json(
       {
