@@ -158,7 +158,7 @@ export default function HeroSection() {
         >
           <div className="h-px w-8 sm:w-14 bg-white/15" />
           <span className="text-white/40 text-[11px] sm:text-xs font-mono tracking-[0.2em] uppercase">
-            17 April 2026 &middot; IAR Campus
+            18 April 2026 &middot; IAR Campus
           </span>
           <div className="h-px w-8 sm:w-14 bg-white/15" />
         </motion.div>
