@@ -1,10 +1,11 @@
 "use client";
 
+import React from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 
-const faqs = [
+const faqs: { q: string; a: React.ReactNode }[] = [
   {
     q: "What is the entry fee?",
     a: "The tournament is completely free to enter. No registration fee required!",
@@ -23,7 +24,20 @@ const faqs = [
   },
   {
     q: "What if I don't have a team?",
-    a: "No worries! Contact our Gaming Head Ved at +91 63542 72295 (WhatsApp) and he'll help set you up with a team looking for members.",
+    a: (
+      <span>
+        No worries! Contact our Gaming Head Hemang at{" "}
+        <a
+          href="https://wa.me/917859937175"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-ff-orange hover:underline"
+        >
+          +91 78599 37175
+        </a>{" "}
+        (WhatsApp) and he&apos;ll help set you up with a team looking for members.
+      </span>
+    ),
   },
   {
     q: "What is the prize?",
@@ -55,7 +69,7 @@ const faqs = [
   },
 ];
 
-function FAQItem({ faq, index }: { faq: { q: string; a: string }; index: number }) {
+function FAQItem({ faq, index }: { faq: { q: string; a: React.ReactNode }; index: number }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -87,9 +101,9 @@ function FAQItem({ faq, index }: { faq: { q: string; a: string }; index: number 
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <p className="px-4 sm:px-5 pb-4 sm:pb-5 text-white/50 text-sm leading-relaxed">
+            <div className="px-4 sm:px-5 pb-4 sm:pb-5 text-white/50 text-sm leading-relaxed">
               {faq.a}
-            </p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
