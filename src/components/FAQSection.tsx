@@ -44,8 +44,8 @@ const faqs: { q: string; a: React.ReactNode }[] = [
     a: "The winning team takes home 15,000 Free Fire MAX Diamonds. One prize pool, no split — winner takes all!",
   },
   {
-    q: "What do winners get besides diamonds?",
-    a: "The winning team will also get an exclusive opportunity to play in a real esports tournament. This is your chance to go from casual gaming to competitive esports!",
+    q: "What do top teams get?",
+    a: "Top 1 team will play grand finals at Mahatma Mandir on 26 April!",
   },
   {
     q: "Where is the venue?",
