@@ -35,7 +35,7 @@ const faqs = [
   },
   {
     q: "What should I bring?",
-    a: "Your mobile phone (fully charged), a charger/power bank, earphones, a valid ID proof, and your A-game!",
+    a: "Your mobile phone (fully charged), charger/power bank, AND your official school/college ID card. No ID = No entry!",
   },
   {
     q: "What game mode will be played?",

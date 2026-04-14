@@ -175,7 +175,8 @@ export default function RegistrationForm() {
                 Team <span className="text-ff-orange font-bold">{formData.team_name}</span> has been registered successfully.
               </p>
               <p className="text-white/40 text-sm">
-                Make sure to arrive at IAR A3 Building before 9:15 AM on April 18.
+                Make sure to bring your official school/college ID card for all players.
+                <br />Arrive at IAR A3 Building before 9:15 AM on April 18.
               </p>
               <div className="mt-6 p-4 bg-black/30 rounded-xl border border-white/10">
                 <p className="text-white/50 text-xs uppercase tracking-widest mb-1">Venue</p>
@@ -377,10 +378,10 @@ export default function RegistrationForm() {
                 <div className="text-sm text-white/60">
                   <p className="font-semibold text-white/80 mb-1">Important</p>
                   <ul className="space-y-1 text-xs">
+                    <li>• All players must bring their official school/college ID card</li>
                     <li>• Registration starts at 9:00 AM. Arrive by 9:15 AM (doors open at 8:45 AM)</li>
-                    <li>• All team members must carry a valid ID proof on the day of the tournament</li>
-                    <li>• Outside school/college teams are welcome</li>
                     <li>• No emulators allowed — mobile devices only</li>
+                    <li>• Outside school/college teams are welcome</li>
                   </ul>
                 </div>
               </div>
