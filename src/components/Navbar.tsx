@@ -30,17 +30,37 @@ export default function Navbar() {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14 sm:h-16">
         {/* Logo */}
-        <a href="#home" className="flex items-center gap-2.5">
-          <Image
-            src="/images/csgc-logo.png"
-            alt="CSGC"
-            width={32}
-            height={32}
-            className="rounded-full"
-          />
-          <span className="text-white/80 font-bold text-sm tracking-wide hidden sm:block">
-            CSGC <span className="text-white/25 font-normal">/ IAR</span>
-          </span>
+        <a href="#home" className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
+            <Image
+              src="/images/csgc-logo.png"
+              alt="CSGC"
+              width={28}
+              height={28}
+              className="rounded-full"
+            />
+            <Image
+              src="/images/FFMC.png"
+              alt="FFMC"
+              width={28}
+              height={28}
+              className="rounded-full"
+            />
+            <Image
+              src="/images/FFMIC.png"
+              alt="FFMIC"
+              width={28}
+              height={28}
+              className="rounded-full"
+            />
+            <Image
+              src="/images/iar-logo.png"
+              alt="IAR"
+              width={28}
+              height={28}
+              className="rounded-full"
+            />
+          </div>
         </a>
 
         {/* Desktop links */}

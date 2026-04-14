@@ -100,43 +100,6 @@ export default function HeroSection() {
         />
       </div>
 
-      {/* Top Right Logos */}
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-        className="absolute top-6 left-6 flex items-center gap-3 z-10"
-      >
-        <Image
-          src="/images/csgc-logo.png"
-          alt="CSGC"
-          width={36}
-          height={36}
-          className="rounded-full border border-white/10"
-        />
-        <Image
-          src="/images/FFMC.png"
-          alt="FFMC"
-          width={36}
-          height={36}
-          className="rounded-full border border-white/10"
-        />
-        <Image
-          src="/images/FFMIC.png"
-          alt="FFMIC"
-          width={36}
-          height={36}
-          className="rounded-full border border-white/10"
-        />
-        <Image
-          src="/images/iar-logo.png"
-          alt="IAR"
-          width={36}
-          height={36}
-          className="rounded-full border border-white/10"
-        />
-      </motion.div>
-
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center px-5 w-full max-w-3xl mx-auto pt-20 pb-16">
         {/* Title */}
