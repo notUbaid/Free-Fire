@@ -10,22 +10,22 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <Image
-              src="/images/csgc-logo.png"
-              alt="CSGC"
-              width={40}
-              height={40}
-              className="rounded-full border border-ff-orange/20"
-            />
-            <Image
               src="/images/iar-logo.png"
               alt="IAR"
               width={40}
               height={40}
               className="rounded-full border border-ff-maroon/20"
             />
+            <Image
+              src="/images/FFMIC.png"
+              alt="FFMIC"
+              width={40}
+              height={40}
+              className="rounded-full border border-ff-maroon/20"
+            />
             <div className="ml-2">
-              <p className="text-white font-bold text-sm">CSGC × IAR</p>
-              <p className="text-white/30 text-xs">Computer Science & Gaming Club</p>
+              <p className="text-white font-bold text-sm">IAR × FFMIC</p>
+              <p className="text-white/30 text-xs">Institute of Advanced Research</p>
             </div>
           </div>
 
