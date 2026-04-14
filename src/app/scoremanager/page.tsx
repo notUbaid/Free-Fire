@@ -52,9 +52,13 @@ function ScoreManagerPage() {
     });
 
     if (res.ok) {
-      setTeams(teams.map(t => 
-        t.id === id ? { ...t, [field]: value } : t
-      ));
+      setTeams(teams.map(t => {
+        if (t.id !== id) return t;
+        const updated = { ...t, [field]: value };
+        // Recalculate total
+        updated.total_points = updated.kills + updated.placement_points;
+        return updated;
+      }));
     }
   };
 

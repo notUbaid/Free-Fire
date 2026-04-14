@@ -5,15 +5,25 @@ const ADMIN_PASSWORD = "Admin@CSGC#";
 
 export async function POST(request: NextRequest) {
   try {
-    const { password, id, field, value } = await request.json();
+    const { password, id, field, value, kills, placement_points } = await request.json();
 
     if (password !== ADMIN_PASSWORD) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
 
+    const updateData: Record<string, any> = { [field]: value, updated_at: new Date().toISOString() };
+
+    // Auto-calculate total_points when kills or placement changes
+    if (field === "kills" || field === "placement_points") {
+      const { data: team } = await supabase.from("team_scores").select("kills, placement_points").eq("id", id).single();
+      const newKills = field === "kills" ? value : (team?.kills || 0);
+      const newPlacement = field === "placement_points" ? value : (team?.placement_points || 0);
+      updateData.total_points = newKills + newPlacement;
+    }
+
     const { error } = await supabase
       .from("team_scores")
-      .update({ [field]: value, updated_at: new Date().toISOString() })
+      .update(updateData)
       .eq("id", id);
 
     if (error) {
