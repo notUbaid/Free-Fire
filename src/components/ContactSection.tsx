@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Phone, MapPin, MessageCircle } from "lucide-react";
+import Image from "next/image";
 
 const contacts = [
   {
@@ -11,6 +12,7 @@ const contacts = [
     phone: "+91 63542 72295",
     whatsapp: "916354272295",
     color: "from-ff-orange to-ff-red",
+    image: "/images/ved.jpg",
   },
   {
     name: "Digvijay",
@@ -18,6 +20,7 @@ const contacts = [
     phone: "+91 6352 269 653",
     whatsapp: "916352269653",
     color: "from-purple-500 to-indigo-600",
+    image: "/images/digvijay.webp",
   },
   {
     name: "Hemang",
@@ -25,6 +28,7 @@ const contacts = [
     phone: "+91 78599 37175",
     whatsapp: "917859937175",
     color: "from-cyan-500 to-blue-600",
+    image: "/images/hemang.jpg",
   },
 ];
 
@@ -65,10 +69,14 @@ export default function ContactSection() {
               whileHover={{ y: -5, scale: 1.02 }}
               className="group bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-center hover:border-ff-orange/30 transition-all duration-300"
             >
-              <div className={`w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br ${contact.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                <span className="text-2xl font-black text-white">
-                  {contact.name[0]}
-                </span>
+              <div className="w-20 h-20 mx-auto rounded-2xl overflow-hidden mb-4 group-hover:scale-110 transition-transform border-2 border-white/20">
+                <Image
+                  src={contact.image}
+                  alt={contact.name}
+                  width={80}
+                  height={80}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <h3 className="text-white font-bold text-lg">{contact.name}</h3>
               <p className="text-white/40 text-xs uppercase tracking-widest mb-4">
