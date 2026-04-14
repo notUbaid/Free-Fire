@@ -18,12 +18,30 @@ function Countdown() {
     };
   };
 
-  const [t, setT] = useState(() => calc());
+  const [t, setT] = useState({ d: 0, h: 0, m: 0, s: 0 });
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    setT(calc());
     const id = setInterval(() => setT(calc()), 1000);
     return () => clearInterval(id);
   }, []);
+
+  if (!mounted) {
+    return (
+      <div className="flex gap-2.5 sm:gap-3">
+        {["Days", "Hrs", "Min", "Sec"].map((l) => (
+          <div key={l} className="text-center">
+            <div className="bg-white/[0.06] border border-white/[0.08] rounded-lg w-14 sm:w-[72px] py-2 sm:py-2.5">
+              <span className="text-xl sm:text-3xl font-black text-white tabular-nums leading-none">--</span>
+            </div>
+            <span className="text-[9px] sm:text-[10px] text-white/30 uppercase tracking-widest mt-1 block">{l}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   const units = [
     { v: t.d, l: "Days" },
