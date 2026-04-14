@@ -190,11 +190,9 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-4 flex items-center gap-4 text-white/60 text-sm"
+          className="mt-4 text-white/60 text-sm"
         >
-          <span>Register by 17 April, 10:00 AM</span>
-          <span className="text-white/30">|</span>
-          <span>Only 36 teams</span>
+          Register by 17 April, 10:00 AM
         </motion.div>
 
         {/* Buttons */}
