@@ -41,7 +41,7 @@ const faqs: { q: string; a: React.ReactNode }[] = [
   },
   {
     q: "What is the prize?",
-    a: "The winning team takes home 15,000 Free Fire MAX Diamonds. One prize pool, no split — winner takes all!",
+    a: "The prize pool is 15,000 Free Fire MAX Diamonds!",
   },
   {
     q: "What do top teams get?",
