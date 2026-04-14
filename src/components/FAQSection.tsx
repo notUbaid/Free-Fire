@@ -44,6 +44,10 @@ const faqs: { q: string; a: React.ReactNode }[] = [
     a: "The winning team takes home 15,000 Free Fire MAX Diamonds. One prize pool, no split — winner takes all!",
   },
   {
+    q: "What do winners get besides diamonds?",
+    a: "The winning team will also get an exclusive opportunity to play in a real esports tournament. This is your chance to go from casual gaming to competitive esports!",
+  },
+  {
     q: "Where is the venue?",
     a: "IAR Main Campus, A3 Building. Doors open at 8:45 AM. Be there before 9:15 AM for check-in.",
   },
