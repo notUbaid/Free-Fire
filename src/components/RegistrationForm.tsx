@@ -115,14 +115,25 @@ export default function RegistrationForm() {
       }
 
       setIsSuccess(true);
-      toast.success("Registration successful!", {
-        duration: 5000,
-        style: {
-          background: "#1a1a2e",
-          color: "#fff",
-          border: "1px solid #ff6a0040",
-        },
-      });
+      if (data.waitlist) {
+        toast.success(data.message || "You've been added to the waitlist!", {
+          duration: 7000,
+          style: {
+            background: "#1a1a2e",
+            color: "#fff",
+            border: "1px solid #ffa50040",
+          },
+        });
+      } else {
+        toast.success("Registration successful!", {
+          duration: 5000,
+          style: {
+            background: "#1a1a2e",
+            color: "#fff",
+            border: "1px solid #ff6a0040",
+          },
+        });
+      }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong", {
         style: {

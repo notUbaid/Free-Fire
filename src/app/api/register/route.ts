@@ -144,17 +144,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if registration is full (36 teams max)
+    // Check current registration count
     const { count } = await supabase
       .from("registrations")
       .select("*", { count: "exact", head: true });
 
-    if (count !== null && count >= 36) {
-      return NextResponse.json(
-        { error: "Registrations are full. Maximum 36 teams allowed." },
-        { status: 403 }
-      );
-    }
+    const isWaitlist = count !== null && count >= 36;
 
     // Insert registration
     const { data, error } = await supabase
@@ -192,8 +187,11 @@ export async function POST(request: NextRequest) {
     // Registration complete
     return NextResponse.json(
       {
-        message: "Registration successful!",
+        message: isWaitlist 
+          ? "You've been added to the waitlist. We'll notify you if a spot opens up!" 
+          : "Registration successful!",
         team: data,
+        waitlist: isWaitlist,
       },
       { status: 201 }
     );
