@@ -58,7 +58,7 @@ Open http://localhost:3000
 
 ## Admin Credentials
 
-Password: `Admin@CSGC#`
+Password: ``
 
 | Route | Purpose |
 |-------|---------|
