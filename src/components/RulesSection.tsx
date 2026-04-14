@@ -124,7 +124,6 @@ export default function RulesSection() {
           <div className="inline-block relative">
             <div className="absolute -inset-4 bg-gradient-to-r from-ff-orange/20 via-ff-yellow/20 to-ff-orange/20 rounded-3xl blur-2xl" />
             <div className="relative bg-black/60 backdrop-blur-sm border border-ff-yellow/30 rounded-3xl p-8 sm:p-12">
-              <p className="text-ff-yellow/60 text-xs uppercase tracking-[0.3em] mb-2">Winner Takes All</p>
               <div className="flex items-center justify-center gap-3 sm:gap-4">
                 <span className="text-4xl sm:text-6xl">💎</span>
                 <div>
