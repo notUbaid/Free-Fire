@@ -1,26 +1,79 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ff-orange: #ff6a00;
+  --ff-red: #ff1744;
+  --ff-yellow: #ffd600;
+  --ff-dark: #0a0a0f;
+  --ff-darker: #050508;
+  --background: #050508;
+  --foreground: #ededed;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-ff-orange: #ff6a00;
+  --color-ff-red: #ff1744;
+  --color-ff-yellow: #ffd600;
+  --color-ff-dark: #0a0a0f;
+  --color-ff-darker: #050508;
+  --color-ff-gold: #f5a623;
+  --color-ff-maroon: #8b1a4a;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #ff6a00 #0a0a0f;
+}
+
+*::-webkit-scrollbar { width: 5px; }
+*::-webkit-scrollbar-track { background: #0a0a0f; }
+*::-webkit-scrollbar-thumb { background: #ff6a00; border-radius: 3px; }
+
+html {
+  scroll-behavior: smooth;
+  background: #050508;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #050508;
+  color: #ededed;
+  overflow-x: hidden;
+}
+
+/* Form focus ring */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #ff6a0060;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Pulse glow for CTA */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 8px #ff6a0050, 0 0 20px #ff6a0025; }
+  50% { box-shadow: 0 0 14px #ff6a0070, 0 0 32px #ff6a0040; }
+}
+.pulse-glow { animation: pulseGlow 2.5s ease-in-out infinite; }
+
+/* Subtle grid pattern */
+.grid-bg {
+  background-image:
+    linear-gradient(#ff6a0006 1px, transparent 1px),
+    linear-gradient(90deg, #ff6a0006 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Diagonal stripes */
+.diagonal-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg, transparent, transparent 10px, #ff6a0008 10px, #ff6a0008 20px
+  );
 }
