@@ -55,7 +55,7 @@ async function sendConfirmationEmail(email: string, teamName: string, leaderName
     `;
 
     await transporter.sendMail({
-      from: '"CSGC Tournament" <noreply@csgctournament.com>',
+      from: `"CSGC Tournament" <${process.env.SMTP_USER}>`,
       to: email,
       subject: "🎮 Registration Confirmed - CSGC x IAR Free Fire MAX Tournament",
       html: htmlContent,
