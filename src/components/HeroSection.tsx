@@ -105,7 +105,7 @@ export default function HeroSection() {
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
-        className="absolute top-6 right-6 flex items-center gap-3 z-10"
+        className="absolute top-6 left-6 flex items-center gap-3 z-10"
       >
         <Image
           src="/images/csgc-logo.png"
