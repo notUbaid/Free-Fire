@@ -150,8 +150,9 @@ export async function POST(request: NextRequest) {
       .select("*", { count: "exact", head: true });
 
     const isWaitlist = count !== null && count >= 36;
+    const now = new Date().toISOString();
 
-    // Insert registration
+    // Insert registration - track timestamp for all new registrations
     const { data, error } = await supabase
       .from("registrations")
       .insert([
@@ -171,6 +172,7 @@ export async function POST(request: NextRequest) {
           player4_phone: player4_phone || null,
           player4_school: player4_school || null,
           approved: false,
+          registered_at: now,
         },
       ])
       .select()

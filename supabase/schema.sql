@@ -27,7 +27,8 @@ CREATE TABLE IF NOT EXISTS registrations (
   player4_phone TEXT,
   player4_school TEXT,
   approved BOOLEAN DEFAULT FALSE,
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  registered_at TIMESTAMPTZ
 );
 
 -- ===== TEAM SCORES TABLE =====
