@@ -65,8 +65,13 @@ export default function HeroSection() {
           preload="auto"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-black/70" />
+        {/* Animated gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-ff-darker via-transparent to-black/30" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-ff-darker to-transparent" />
+        {/* Glow effects */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-ff-orange/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-ff-red/10 rounded-full blur-[100px]" />
       </div>
 
       {/* Content */}

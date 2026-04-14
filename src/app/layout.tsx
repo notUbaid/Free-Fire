@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { MessageCircle } from "lucide-react";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -35,6 +36,20 @@ export const metadata: Metadata = {
   },
 };
 
+function WhatsAppButton() {
+  return (
+    <a
+      href="https://wa.me/917855937175"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg shadow-green-500/30 transition-all hover:scale-110"
+      aria-label="Chat on WhatsApp"
+    >
+      <MessageCircle size={28} />
+    </a>
+  );
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -45,7 +60,10 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="min-h-screen bg-ff-darker text-white">{children}</body>
+      <body className="min-h-screen bg-ff-darker text-white">
+        {children}
+        <WhatsAppButton />
+      </body>
     </html>
   );
 }

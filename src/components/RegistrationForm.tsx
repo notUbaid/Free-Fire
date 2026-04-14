@@ -182,7 +182,7 @@ export default function RegistrationForm() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-3xl p-6 sm:p-10 space-y-8"
+              className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-3xl p-5 sm:p-10 space-y-8"
             >
               {/* Team Name */}
               <div>
