@@ -1,12 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface Registration {
   id: string;
@@ -28,51 +23,49 @@ interface Registration {
 }
 
 function AdminPage() {
-  const [authenticated, setAuthenticated] = useState(false);
+  const router = useRouter();
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [error, setError] = useState("");
+  const [registrations, setRegistrations] = useState<Registration[]>([]);
+  const [authenticated, setAuthenticated] = useState(false);
 
   const checkPassword = async () => {
     setLoading(true);
-    if (password === "Admin@CSGC#") {
-      setAuthenticated(true);
-      fetchRegistrations();
-    } else {
-      setError("Invalid password");
+    setError("");
+
+    try {
+      const res = await fetch("/api/admin-auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setRegistrations(data.registrations);
+        setAuthenticated(true);
+      } else {
+        setError("Invalid password");
+      }
+    } catch (err) {
+      setError("Something went wrong");
     }
+
     setLoading(false);
-  };
-
-  const fetchRegistrations = async () => {
-    const { data, error } = await supabase
-      .from("registrations")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (!error) {
-      setRegistrations(data);
-    }
   };
 
   const deleteRegistration = async (id: string) => {
     if (!confirm("Delete this registration?")) return;
-    
-    const { error } = await supabase.from("registrations").delete().eq("id", id);
-    if (!error) {
-      fetchRegistrations();
-    }
-  };
 
-  const updateRegistration = async (id: string, field: string, value: string) => {
-    const { error } = await supabase
-      .from("registrations")
-      .update({ [field]: value })
-      .eq("id", id);
+    const res = await fetch("/api/admin-delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, password }),
+    });
 
-    if (!error) {
-      fetchRegistrations();
+    if (res.ok) {
+      setRegistrations(registrations.filter((r) => r.id !== id));
     }
   };
 
@@ -93,7 +86,7 @@ function AdminPage() {
           <button
             onClick={checkPassword}
             disabled={loading}
-            className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-lg"
+            className="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-lg disabled:opacity-50"
           >
             {loading ? "Checking..." : "Login"}
           </button>
@@ -108,7 +101,7 @@ function AdminPage() {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold text-white">📊 Admin Panel</h1>
           <button
-            onClick={fetchRegistrations}
+            onClick={() => window.location.reload()}
             className="text-orange-500 text-sm hover:underline"
           >
             Refresh
