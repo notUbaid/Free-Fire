@@ -90,6 +90,17 @@ export default function RegistrationForm() {
     e.preventDefault();
     setIsSubmitting(true);
 
+    // Validate phone numbers are exactly 10 digits
+    const phoneFields = ["leader_phone", "player2_phone", "player3_phone", "player4_phone"];
+    for (const field of phoneFields) {
+      const value = formData[field as keyof FormData];
+      if (value && !/^\d{10}$/.test(value)) {
+        toast.error(`${field.replace("_", " ")} must be exactly 10 digits`);
+        setIsSubmitting(false);
+        return;
+      }
+    }
+
     try {
       const res = await fetch("/api/register", {
         method: "POST",
@@ -229,7 +240,7 @@ export default function RegistrationForm() {
                     label="Phone Number"
                     name="leader_phone"
                     type="tel"
-                    placeholder="+91 XXXXX XXXXX"
+                    placeholder="10 digit number"
                     value={formData.leader_phone}
                     onChange={handleChange}
                   />
@@ -265,7 +276,7 @@ export default function RegistrationForm() {
                       label="Phone"
                       name="player2_phone"
                       type="tel"
-                      placeholder="+91 XXXXX XXXXX"
+                      placeholder="10 digit number"
                       value={formData.player2_phone}
                       onChange={handleChange}
                     />
@@ -294,7 +305,7 @@ export default function RegistrationForm() {
                       label="Phone"
                       name="player3_phone"
                       type="tel"
-                      placeholder="+91 XXXXX XXXXX"
+                      placeholder="10 digit number"
                       value={formData.player3_phone}
                       onChange={handleChange}
                     />
@@ -341,7 +352,7 @@ export default function RegistrationForm() {
                             label="Phone"
                             name="player4_phone"
                             type="tel"
-                            placeholder="+91 XXXXX XXXXX"
+                            placeholder="10 digit number"
                             required={false}
                             value={formData.player4_phone}
                             onChange={handleChange}
