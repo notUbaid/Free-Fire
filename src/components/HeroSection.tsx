@@ -138,13 +138,13 @@ export default function HeroSection() {
           <p className="text-white/50 text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase mb-1">
             Ultimate
           </p>
-          <h1 className="text-[3.2rem] sm:text-7xl md:text-8xl font-black leading-[0.9] tracking-tight text-white">
+          <h1 className="text-[2.8rem] sm:text-6xl md:text-7xl font-black leading-[0.9] tracking-tight text-white">
             FREE&nbsp;FIRE
           </h1>
-          <h1 className="text-[3.8rem] sm:text-8xl md:text-9xl font-black leading-[0.85] tracking-tight bg-gradient-to-r from-ff-orange via-ff-yellow to-ff-red bg-clip-text text-transparent">
+          <h1 className="text-[3.2rem] sm:text-7xl md:text-8xl font-black leading-[0.85] tracking-tight bg-gradient-to-r from-ff-orange via-ff-yellow to-ff-red bg-clip-text text-transparent">
             MAX
           </h1>
-          <p className="text-white/50 text-sm sm:text-base font-bold tracking-widest uppercase mt-1">
+          <p className="text-white/60 text-lg sm:text-xl font-bold tracking-widest uppercase mt-2">
             Tournament
           </p>
         </motion.div>
