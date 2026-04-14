@@ -47,8 +47,8 @@ export default function Navbar() {
               className="rounded-full"
             />
             <Image
-              src="/images/FFMIC.png"
-              alt="FFMIC"
+              src="/images/FFMC.png"
+              alt="FFMC"
               width={28}
               height={28}
               className="rounded-full"

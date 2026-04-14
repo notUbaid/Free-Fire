@@ -17,8 +17,8 @@ export default function Footer() {
               className="rounded-full border border-ff-maroon/20"
             />
             <Image
-              src="/images/FFMIC.png"
-              alt="FFMIC"
+              src="/images/FFMC.png"
+              alt="FFMC"
               width={40}
               height={40}
               className="rounded-full border border-ff-maroon/20"
