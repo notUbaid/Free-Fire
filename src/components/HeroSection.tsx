@@ -70,17 +70,25 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-t from-ff-darker via-transparent to-black/30" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-ff-darker to-transparent" />
         {/* Glow effects */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-ff-orange/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-ff-red/10 rounded-full blur-[100px]" />
+        <motion.div
+          animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.15, 0.1] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-ff-orange/10 rounded-full blur-[120px]"
+        />
+        <motion.div
+          animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.12, 0.1] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-ff-red/10 rounded-full blur-[100px]"
+        />
       </div>
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center px-5 w-full max-w-3xl mx-auto pt-20 pb-16">
         {/* Logos */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: [0.34, 1.56, 0.64, 1] }}
           className="flex items-center gap-3 mb-6 sm:mb-8"
         >
           <Image
@@ -102,9 +110,9 @@ export default function HeroSection() {
 
         {/* Title */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
         >
           <p className="text-white/40 text-xs sm:text-sm font-medium tracking-[0.3em] uppercase mb-2">
             CSGC Presents
@@ -135,7 +143,7 @@ export default function HeroSection() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
           className="mt-5 sm:mt-6 inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.08] rounded-full px-5 py-2.5"
         >
           <span className="text-lg">💎</span>
@@ -147,7 +155,7 @@ export default function HeroSection() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.55 }}
+          transition={{ duration: 0.5, delay: 0.55, ease: [0.34, 1.56, 0.64, 1] }}
           className="mt-5 sm:mt-6"
         >
           <Countdown />
@@ -157,21 +165,25 @@ export default function HeroSection() {
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.7 }}
+          transition={{ duration: 0.5, delay: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
           className="mt-7 sm:mt-8 flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto"
         >
-          <a
+          <motion.a
             href="#register"
-            className="w-full sm:w-auto bg-ff-orange hover:bg-ff-orange/90 active:scale-[0.97] text-white font-bold text-sm sm:text-base px-8 py-3.5 rounded-xl tracking-wide uppercase transition-all duration-150 text-center"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="w-full sm:w-auto bg-ff-orange hover:bg-ff-orange/90 text-white font-bold text-sm sm:text-base px-8 py-3.5 rounded-xl tracking-wide uppercase text-center"
           >
             Register Now
-          </a>
-          <a
+          </motion.a>
+          <motion.a
             href="#about"
-            className="w-full sm:w-auto border border-white/12 hover:border-white/25 active:scale-[0.97] text-white/70 hover:text-white font-semibold text-sm sm:text-base px-8 py-3.5 rounded-xl tracking-wide uppercase transition-all duration-150 text-center"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="w-full sm:w-auto border border-white/12 hover:border-white/25 text-white/70 hover:text-white font-semibold text-sm sm:text-base px-8 py-3.5 rounded-xl tracking-wide uppercase text-center"
           >
             Learn More
-          </a>
+          </motion.a>
         </motion.div>
       </div>
     </section>
