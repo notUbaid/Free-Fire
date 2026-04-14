@@ -6,13 +6,15 @@ CREATE TABLE IF NOT EXISTS registrations (
   leader_email TEXT UNIQUE NOT NULL,
   leader_phone TEXT NOT NULL,
   leader_school TEXT NOT NULL,
-  leader_identity TEXT NOT NULL,
   player2_name TEXT NOT NULL,
   player2_phone TEXT NOT NULL,
+  player2_school TEXT NOT NULL,
   player3_name TEXT NOT NULL,
   player3_phone TEXT NOT NULL,
+  player3_school TEXT NOT NULL,
   player4_name TEXT,
   player4_phone TEXT,
+  player4_school TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 

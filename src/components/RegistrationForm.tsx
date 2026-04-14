@@ -11,13 +11,15 @@ interface FormData {
   leader_email: string;
   leader_phone: string;
   leader_school: string;
-  leader_identity: string;
   player2_name: string;
   player2_phone: string;
+  player2_school: string;
   player3_name: string;
   player3_phone: string;
+  player3_school: string;
   player4_name: string;
   player4_phone: string;
+  player4_school: string;
 }
 
 const initialFormData: FormData = {
@@ -26,13 +28,15 @@ const initialFormData: FormData = {
   leader_email: "",
   leader_phone: "",
   leader_school: "",
-  leader_identity: "",
   player2_name: "",
   player2_phone: "",
+  player2_school: "",
   player3_name: "",
   player3_phone: "",
+  player3_school: "",
   player4_name: "",
   player4_phone: "",
+  player4_school: "",
 };
 
 function InputField({
@@ -236,15 +240,6 @@ export default function RegistrationForm() {
                     value={formData.leader_school}
                     onChange={handleChange}
                   />
-                  <div className="sm:col-span-2">
-                    <InputField
-                      label="Identity Proof (ID Number)"
-                      name="leader_identity"
-                      placeholder="Aadhar / Student ID / Any valid ID number"
-                      value={formData.leader_identity}
-                      onChange={handleChange}
-                    />
-                  </div>
                 </div>
               </div>
 
@@ -274,6 +269,13 @@ export default function RegistrationForm() {
                       value={formData.player2_phone}
                       onChange={handleChange}
                     />
+                    <InputField
+                      label="School / College"
+                      name="player2_school"
+                      placeholder="Institution name"
+                      value={formData.player2_school}
+                      onChange={handleChange}
+                    />
                   </div>
                 </div>
 
@@ -294,6 +296,13 @@ export default function RegistrationForm() {
                       type="tel"
                       placeholder="+91 XXXXX XXXXX"
                       value={formData.player3_phone}
+                      onChange={handleChange}
+                    />
+                    <InputField
+                      label="School / College"
+                      name="player3_school"
+                      placeholder="Institution name"
+                      value={formData.player3_school}
                       onChange={handleChange}
                     />
                   </div>
@@ -335,6 +344,14 @@ export default function RegistrationForm() {
                             placeholder="+91 XXXXX XXXXX"
                             required={false}
                             value={formData.player4_phone}
+                            onChange={handleChange}
+                          />
+                          <InputField
+                            label="School / College"
+                            name="player4_school"
+                            placeholder="Institution name"
+                            required={false}
+                            value={formData.player4_school}
                             onChange={handleChange}
                           />
                         </div>

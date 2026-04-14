@@ -11,13 +11,15 @@ export async function POST(request: NextRequest) {
       leader_email,
       leader_phone,
       leader_school,
-      leader_identity,
       player2_name,
       player2_phone,
+      player2_school,
       player3_name,
       player3_phone,
+      player3_school,
       player4_name,
       player4_phone,
+      player4_school,
     } = body;
 
     // Validate required fields
@@ -27,11 +29,12 @@ export async function POST(request: NextRequest) {
       !leader_email ||
       !leader_phone ||
       !leader_school ||
-      !leader_identity ||
       !player2_name ||
       !player2_phone ||
+      !player2_school ||
       !player3_name ||
-      !player3_phone
+      !player3_phone ||
+      !player3_school
     ) {
       return NextResponse.json(
         { error: "All required fields must be filled" },
@@ -77,13 +80,15 @@ export async function POST(request: NextRequest) {
           leader_email,
           leader_phone,
           leader_school,
-          leader_identity,
           player2_name,
           player2_phone,
+          player2_school,
           player3_name,
           player3_phone,
+          player3_school,
           player4_name: player4_name || null,
           player4_phone: player4_phone || null,
+          player4_school: player4_school || null,
         },
       ])
       .select()
