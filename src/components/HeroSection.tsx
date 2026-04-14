@@ -179,6 +179,18 @@ export default function HeroSection() {
           <Countdown />
         </motion.div>
 
+        {/* Registration Info */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="mt-4 flex items-center gap-4 text-white/40 text-xs"
+        >
+          <span>📅 Register by 18 April, 10:00 AM</span>
+          <span className="text-white/20">|</span>
+          <span>🎮 Only 36 teams</span>
+        </motion.div>
+
         {/* Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 14 }}
