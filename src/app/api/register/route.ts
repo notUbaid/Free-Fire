@@ -188,10 +188,7 @@ export async function POST(request: NextRequest) {
       },
     ]);
 
-    // Send confirmation email
-    const emailResult = await sendConfirmationEmail(leader_email, team_name, leader_name);
-    console.log("Email result:", emailResult);
-
+    // Registration complete
     return NextResponse.json(
       {
         message: "Registration successful!",

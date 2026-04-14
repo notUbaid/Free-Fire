@@ -115,7 +115,7 @@ export default function RegistrationForm() {
       }
 
       setIsSuccess(true);
-      toast.success("Registration successful! Check your email for confirmation.", {
+      toast.success("Registration successful!", {
         duration: 5000,
         style: {
           background: "#1a1a2e",
@@ -175,8 +175,7 @@ export default function RegistrationForm() {
                 Team <span className="text-ff-orange font-bold">{formData.team_name}</span> has been registered successfully.
               </p>
               <p className="text-white/40 text-sm">
-                A confirmation has been sent to {formData.leader_email}.
-                <br />Make sure to arrive at IAR A3 Building before 9:15 AM on April 18.
+                Make sure to arrive at IAR A3 Building before 9:15 AM on April 18.
               </p>
               <div className="mt-6 p-4 bg-black/30 rounded-xl border border-white/10">
                 <p className="text-white/50 text-xs uppercase tracking-widest mb-1">Venue</p>
