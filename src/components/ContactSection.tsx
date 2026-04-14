@@ -6,24 +6,24 @@ import { Phone, MapPin, MessageCircle } from "lucide-react";
 
 const contacts = [
   {
+    name: "Ved",
+    role: "Gaming Head",
+    phone: "+91 63542 72295",
+    whatsapp: "916354272295",
+    color: "from-ff-orange to-ff-red",
+  },
+  {
+    name: "Digvijay",
+    role: "Main Coordinator",
+    phone: "+91 6352 269 653",
+    whatsapp: "916352269653",
+    color: "from-purple-500 to-indigo-600",
+  },
+  {
     name: "Hemang",
     role: "Gaming Head",
     phone: "+91 78599 37175",
     whatsapp: "917859937175",
-    color: "from-ff-orange to-ff-red",
-  },
-  {
-    name: "Ved",
-    role: "Coordinator",
-    phone: "+91 6354 272 295",
-    whatsapp: "916354272295",
-    color: "from-purple-500 to-indigo-600",
-  },
-  {
-    name: "Digvijay",
-    role: "Coordinator",
-    phone: "+91 6352 269 653",
-    whatsapp: "916352269653",
     color: "from-cyan-500 to-blue-600",
   },
 ];

@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     q: "What if I don't have a team?",
-    a: "No worries! Contact our Gaming Head Hemang at +91 78599 37175 (WhatsApp) and he'll help set you up with a team looking for members.",
+    a: "No worries! Contact our Gaming Head Ved at +91 63542 72295 (WhatsApp) and he'll help set you up with a team looking for members.",
   },
   {
     q: "What is the prize?",
