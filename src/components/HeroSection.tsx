@@ -168,7 +168,7 @@ export default function HeroSection() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="mt-4 text-white/60 text-sm"
         >
-          Register by 17 April, 10:00 AM
+          Register by 17 April
         </motion.div>
 
         {/* Buttons */}
