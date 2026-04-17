@@ -45,7 +45,7 @@ export default function ScoreboardPage() {
   const fetchScores = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/teams");
+      const res = await fetch("/api/teams?v=" + Date.now());
       const data = await res.json();
       setTeams(data.teams || []);
       setLastUpdated(new Date());
