@@ -63,7 +63,7 @@ async function sendConfirmationEmail(email: string, teamName: string, leaderName
     await transporter.sendMail({
       from: `"CSGC Tournament" <${process.env.SMTP_USER}>`,
       to: email,
-      subject: "🎮 Registration Confirmed - CSGC x IAR Free Fire MAX Tournament",
+      subject: "🎮 Registration Confirmed - CSGC x FFMIC Free Fire MAX Tournament",
       html: htmlContent,
     });
 
@@ -150,9 +150,8 @@ export async function POST(request: NextRequest) {
       .select("*", { count: "exact", head: true });
 
     const isWaitlist = count !== null && count >= 36;
-    const now = new Date().toISOString();
 
-    // Insert registration - track timestamp for all new registrations
+    // Insert registration
     const { data, error } = await supabase
       .from("registrations")
       .insert([
@@ -172,7 +171,6 @@ export async function POST(request: NextRequest) {
           player4_phone: player4_phone || null,
           player4_school: player4_school || null,
           approved: false,
-          registered_at: now,
         },
       ])
       .select()
@@ -185,6 +183,9 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+
+    // Send confirmation email
+    sendConfirmationEmail(leader_email, team_name, leader_name);
 
     // Registration complete
     return NextResponse.json(
