@@ -53,6 +53,9 @@ CREATE POLICY "Allow duplicate check" ON registrations FOR SELECT TO anon USING 
 CREATE POLICY "Allow score read" ON team_scores FOR SELECT TO anon USING (true);
 CREATE POLICY "Allow score insert" ON team_scores FOR INSERT TO anon WITH CHECK (true);
 CREATE POLICY "Allow score update" ON team_scores FOR UPDATE TO anon USING (true);
+CREATE POLICY "Allow score delete" ON team_scores FOR DELETE TO anon USING (true);
+CREATE POLICY "Allow registration delete" ON registrations FOR DELETE TO anon USING (true);
+CREATE POLICY "Allow registration update" ON registrations FOR UPDATE TO anon USING (true);
 
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_registrations_approved ON registrations(approved);

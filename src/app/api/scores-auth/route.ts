@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
-const ADMIN_PASSWORD = "Admin@CSGC#";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Admin@CSGC#";
 
 export async function POST(request: NextRequest) {
   try {

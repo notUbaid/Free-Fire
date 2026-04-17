@@ -12,13 +12,16 @@ export type Registration = {
   leader_email: string;
   leader_phone: string;
   leader_school: string;
-  leader_identity: string;
   player2_name: string;
   player2_phone: string;
+  player2_school: string;
   player3_name: string;
   player3_phone: string;
+  player3_school: string;
   player4_name?: string;
   player4_phone?: string;
+  player4_school?: string;
+  approved?: boolean;
   created_at?: string;
 };
 

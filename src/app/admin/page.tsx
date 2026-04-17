@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { jsPDF } from "jspdf";
 
 interface Registration {
@@ -187,7 +187,7 @@ function AdminPage() {
             onChange={(e) => setPassword(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && checkPassword()}
             placeholder="Enter admin password"
-            className="w-full bg-gray-700 text-white px-4 py-3 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ringring-orange-500"
+            className="w-full bg-gray-700 text-white px-4 py-3 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
           <button
@@ -304,8 +304,8 @@ function AdminPage() {
             </thead>
             <tbody>
               {registrations.map((reg) => (
-                <>
-                  <tr key={reg.id} className="border-t border-gray-700">
+                <React.Fragment key={reg.id}>
+                  <tr className="border-t border-gray-700">
                     <td className="p-3 text-orange-500 font-bold">{reg.team_name}</td>
                     <td className="p-3">
                       <button
@@ -340,7 +340,7 @@ function AdminPage() {
                     </td>
                   </tr>
                   {expandedId === reg.id && (
-                    <tr key={reg.id + "-details"} className="bg-gray-800/50">
+                    <tr className="bg-gray-800/50">
                       <td colSpan={4} className="p-4">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div>
@@ -375,7 +375,7 @@ function AdminPage() {
                     </tr>
                   )}
                   {editingId === reg.id && (
-                    <tr key={reg.id + "-edit"} className="bg-gray-800/50">
+                    <tr className="bg-gray-800/50">
                       <td colSpan={4} className="p-4">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div>
@@ -454,7 +454,7 @@ function AdminPage() {
                       </td>
                     </tr>
                   )}
-                </>
+                </React.Fragment>
               ))}
             </tbody>
           </table>

@@ -5,7 +5,8 @@ export async function POST(request: NextRequest) {
   try {
     const { password, team_name, leader_name, leader_email, leader_phone, leader_school, player2_name, player2_phone, player2_school, player3_name, player3_phone, player3_school, player4_name, player4_phone, player4_school } = await request.json();
 
-    if (password !== "Admin@CSGC#") {
+    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Admin@CSGC#";
+    if (password !== ADMIN_PASSWORD) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
 

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
-const ADMIN_PASSWORD = "Admin@CSGC#";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Admin@CSGC#";
 
 export async function POST(request: NextRequest) {
   try {
@@ -26,7 +26,10 @@ export async function POST(request: NextRequest) {
     const approvedTeamNames = new Set(approvedRegs?.map(r => r.team_name) || []);
 
     // Find teams that are approved but not in team_scores
-    const teamsToAdd = approvedTeamNames.filter(name => !existingTeamNames.has(name));
+    const teamsToAdd = [...approvedTeamNames].filter(name => !existingTeamNames.has(name));
+
+    // Find teams in team_scores that are no longer approved — remove them
+    const teamsToRemove = [...existingTeamNames].filter(name => !approvedTeamNames.has(name));
 
     if (teamsToAdd.length > 0) {
       const insertData = teamsToAdd.map(team_name => ({
@@ -41,9 +44,15 @@ export async function POST(request: NextRequest) {
       await supabase.from("team_scores").insert(insertData);
     }
 
-    return NextResponse.json({ 
-      success: true, 
-      message: `Synced ${teamsToAdd.length} teams to scoreboard`
+    if (teamsToRemove.length > 0) {
+      for (const name of teamsToRemove) {
+        await supabase.from("team_scores").delete().eq("team_name", name);
+      }
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: `Synced: added ${teamsToAdd.length}, removed ${teamsToRemove.length} teams`
     });
   } catch (err) {
     return NextResponse.json({ error: "Internal error" }, { status: 500 });

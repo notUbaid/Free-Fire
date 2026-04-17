@@ -38,7 +38,6 @@ html {
 *::-webkit-scrollbar-thumb { background: #ff6a00; border-radius: 3px; }
 
 html {
-  scroll-behavior: smooth;
   background: #050508;
 }
 
