@@ -71,7 +71,7 @@ function AdminPage() {
     const res = await fetch("/api/admin-approve", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, password }),
+      body: JSON.stringify({ id, password, approved: true }),
     });
     if (res.ok) {
       setRegistrations(registrations.map(r => r.id === id ? { ...r, approved: true } : r));
@@ -80,10 +80,10 @@ function AdminPage() {
 
   const unapproveTeam = async (id: string) => {
     if (!confirm("Remove from scoreboard? This will hide them from /scoremanager and /score")) return;
-    const res = await fetch("/api/admin-delete", {
+    const res = await fetch("/api/admin-approve", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, password }),
+      body: JSON.stringify({ id, password, approved: false }),
     });
     if (res.ok) {
       setRegistrations(registrations.map(r => r.id === id ? { ...r, approved: false } : r));
