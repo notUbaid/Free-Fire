@@ -55,6 +55,18 @@ function AdminPage() {
     setLoading(false);
   };
 
+  const fetchScores = async () => {
+    const res = await fetch("/api/admin-auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      setRegistrations(data.registrations);
+    }
+  };
+
   const deleteRegistration = async (id: string) => {
     if (!confirm("Delete this registration?")) return;
     const res = await fetch("/api/admin-delete", {
@@ -201,6 +213,57 @@ function AdminPage() {
             </button>
             <button onClick={() => window.location.reload()} className="text-orange-500 text-sm hover:underline">
               Refresh
+            </button>
+          </div>
+        </div>
+
+        {/* Quick Add Team */}
+        <div className="bg-gray-800 rounded-xl p-4 mb-6">
+          <h2 className="text-white font-bold mb-3">Quick Add Team</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <input id="add-team-name" placeholder="Team Name" className="bg-gray-700 text-white px-3 py-2 rounded text-sm" />
+            <input id="add-leader-name" placeholder="Leader Name" className="bg-gray-700 text-white px-3 py-2 rounded text-sm" />
+            <input id="add-leader-email" placeholder="Leader Email" className="bg-gray-700 text-white px-3 py-2 rounded text-sm" />
+            <input id="add-leader-phone" placeholder="Leader Phone" className="bg-gray-700 text-white px-3 py-2 rounded text-sm" />
+            <input id="add-leader-school" placeholder="Leader School" className="bg-gray-700 text-white px-3 py-2 rounded text-sm" />
+            <input id="add-p2-name" placeholder="Player 2 Name" className="bg-gray-700 text-white px-3 py-2 rounded text-sm" />
+            <input id="add-p2-phone" placeholder="Player 2 Phone" className="bg-gray-700 text-white px-3 py-2 rounded text-sm" />
+            <input id="add-p2-school" placeholder="Player 2 School" className="bg-gray-700 text-white px-3 py-2 rounded text-sm" />
+            <input id="add-p3-name" placeholder="Player 3 Name" className="bg-gray-700 text-white px-3 py-2 rounded text-sm" />
+            <input id="add-p3-phone" placeholder="Player 3 Phone" className="bg-gray-700 text-white px-3 py-2 rounded text-sm" />
+            <input id="add-p3-school" placeholder="Player 3 School" className="bg-gray-700 text-white px-3 py-2 rounded text-sm" />
+            <input id="add-p4-name" placeholder="Player 4 Name (optional)" className="bg-gray-700 text-white px-3 py-2 rounded text-sm" />
+            <input id="add-p4-phone" placeholder="Player 4 Phone" className="bg-gray-700 text-white px-3 py-2 rounded text-sm" />
+            <input id="add-p4-school" placeholder="Player 4 School" className="bg-gray-700 text-white px-3 py-2 rounded text-sm" />
+            <button 
+              onClick={async () => {
+                const data = {
+                  team_name: (document.getElementById('add-team-name') as HTMLInputElement).value,
+                  leader_name: (document.getElementById('add-leader-name') as HTMLInputElement).value,
+                  leader_email: (document.getElementById('add-leader-email') as HTMLInputElement).value,
+                  leader_phone: (document.getElementById('add-leader-phone') as HTMLInputElement).value,
+                  leader_school: (document.getElementById('add-leader-school') as HTMLInputElement).value,
+                  player2_name: (document.getElementById('add-p2-name') as HTMLInputElement).value,
+                  player2_phone: (document.getElementById('add-p2-phone') as HTMLInputElement).value,
+                  player2_school: (document.getElementById('add-p2-school') as HTMLInputElement).value,
+                  player3_name: (document.getElementById('add-p3-name') as HTMLInputElement).value,
+                  player3_phone: (document.getElementById('add-p3-phone') as HTMLInputElement).value,
+                  player3_school: (document.getElementById('add-p3-school') as HTMLInputElement).value,
+                  player4_name: (document.getElementById('add-p4-name') as HTMLInputElement).value,
+                  player4_phone: (document.getElementById('add-p4-phone') as HTMLInputElement).value,
+                  player4_school: (document.getElementById('add-p4-school') as HTMLInputElement).value,
+                };
+                const res = await fetch('/api/add-registration', {
+                  method: 'POST',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({password, ...data})
+                });
+                if (res.ok) { alert('Team added!'); window.location.reload(); }
+                else { const err = await res.json(); alert(err.error || 'Failed'); }
+              }}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm font-bold"
+            >
+              Add Team
             </button>
           </div>
         </div>
