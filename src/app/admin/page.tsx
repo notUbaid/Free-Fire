@@ -211,6 +211,16 @@ function AdminPage() {
             <button onClick={downloadPDF} className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg">
               Download
             </button>
+            <button 
+              onClick={async () => {
+                const res = await fetch('/api/teams');
+                const data = await res.json();
+                alert('Teams in scoreboard: ' + JSON.stringify(data.teams?.map((t:any) => t.team_name) || [], null, 2));
+              }} 
+              className="bg-purple-600 hover:bg-purple-700 text-white text-sm px-4 py-2 rounded-lg"
+            >
+              Debug Teams
+            </button>
             <button onClick={() => window.location.reload()} className="text-orange-500 text-sm hover:underline">
               Refresh
             </button>
