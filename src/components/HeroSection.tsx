@@ -166,9 +166,9 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-4 text-white/60 text-sm"
+          className="mt-4 text-ff-orange text-sm font-bold"
         >
-          Register by 17 April
+          Registrations Closed
         </motion.div>
 
         {/* Buttons */}

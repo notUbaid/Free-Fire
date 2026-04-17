@@ -75,10 +75,10 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="#register"
+            href="/score"
             className="bg-ff-orange hover:bg-ff-orange/90 text-white text-[13px] font-bold px-5 py-2 rounded-lg tracking-wide uppercase transition-colors"
           >
-            Register
+            Scoreboard
           </a>
         </div>
 
@@ -112,11 +112,11 @@ export default function Navbar() {
                 </a>
               ))}
               <a
-                href="#register"
+                href="/score"
                 onClick={() => setOpen(false)}
                 className="block bg-ff-orange text-white text-sm font-bold px-5 py-3 rounded-lg tracking-wide uppercase text-center mt-3"
               >
-                Register Now
+                Scoreboard
               </a>
             </div>
           </motion.div>

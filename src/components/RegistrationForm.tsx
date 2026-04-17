@@ -161,14 +161,17 @@ export default function RegistrationForm() {
         >
           <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight">
             <span className="bg-gradient-to-r from-ff-orange to-ff-red bg-clip-text text-transparent">
-              Register
+              Registrations
             </span>
-            <span className="text-white"> Now</span>
+            <span className="text-white"> Closed</span>
           </h2>
           <p className="text-white/40 mt-3 text-sm sm:text-base">
-            Only the <span className="text-ff-orange font-semibold">Team Leader</span> needs to fill this form. Min 3, Max 4 players per team.
+            Thank you for your interest! Registration is now closed.
           </p>
         </motion.div>
+      </div>
+    </section>
+  );
 
         <AnimatePresence mode="wait">
           {isSuccess ? (
