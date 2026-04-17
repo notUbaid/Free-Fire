@@ -10,6 +10,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
 
+    if (!team_name?.trim() || !leader_name?.trim() || !leader_email?.trim() || !leader_phone?.trim() || !leader_school?.trim() || !player2_name?.trim() || !player2_phone?.trim() || !player2_school?.trim() || !player3_name?.trim() || !player3_phone?.trim() || !player3_school?.trim()) {
+      return NextResponse.json({ error: "All required fields must be filled" }, { status: 400 });
+    }
+
     const { error } = await supabase.from("registrations").insert([{
       team_name,
       leader_name,

@@ -12,7 +12,7 @@ const contacts = [
     phone: "+91 63542 72295",
     whatsapp: "916354272295",
     color: "from-ff-orange to-ff-red",
-    image: "Ved",
+    image: "/images/Ved.jpg",
   },
   {
     name: "Aditya",
@@ -20,7 +20,7 @@ const contacts = [
     phone: "+91 95860 58333",
     whatsapp: "919586058333",
     color: "from-purple-500 to-indigo-600",
-    image: "Aditya",
+    image: "/images/Aditya.jpeg",
   },
   {
     name: "Ubaid",
@@ -28,7 +28,7 @@ const contacts = [
     phone: "+91 96244 44730",
     whatsapp: "919624444730",
     color: "from-green-500 to-emerald-600",
-    image: "Ubaid",
+    image: "/images/Ubaid.jpeg",
   },
   {
     name: "Hemang",
@@ -36,7 +36,7 @@ const contacts = [
     phone: "+91 78599 37175",
     whatsapp: "917859937175",
     color: "from-cyan-500 to-blue-600",
-    image: "Hemang",
+    image: "/images/Hemang.jpg",
   },
 ];
 
@@ -78,7 +78,7 @@ export default function ContactSection() {
               className="group bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-center hover:border-ff-orange/30 transition-all duration-300"
             >
 <div className="w-20 h-20 mx-auto rounded-full mb-4 group-hover:scale-110 transition-transform bg-gradient-to-br from-ff-orange to-ff-red overflow-hidden border-2 border-white/20">
-                  <img src={`/images/${contact.image}${['Aditya', 'Ubaid'].includes(contact.image) ? '.jpeg' : '.jpg'}`} alt={contact.name} className="w-full h-full object-cover" />
+                  <img src={contact.image} alt={contact.name} className="w-full h-full object-cover" />
                 </div>
               <h3 className="text-white font-bold text-lg">{contact.name}</h3>
               <p className="text-white/40 text-xs uppercase tracking-widest mb-4">

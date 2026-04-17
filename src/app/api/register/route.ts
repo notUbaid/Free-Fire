@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
       .from("registrations")
       .select("id")
       .eq("team_name", team_name)
-      .single();
+      .maybeSingle();
 
     if (existing) {
       return NextResponse.json(
@@ -135,7 +135,7 @@ export async function POST(request: NextRequest) {
       .from("registrations")
       .select("id")
       .eq("leader_email", leader_email)
-      .single();
+      .maybeSingle();
 
     if (existingEmail) {
       return NextResponse.json(
@@ -184,8 +184,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Send confirmation email
-    sendConfirmationEmail(leader_email, team_name, leader_name);
+    // Send confirmation email (fire-and-forget, don't block response)
+    sendConfirmationEmail(leader_email, team_name, leader_name).catch((err) =>
+      console.error("Background email error:", err)
+    );
 
     // Registration complete
     return NextResponse.json(

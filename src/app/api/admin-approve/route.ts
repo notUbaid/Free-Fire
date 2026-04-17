@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       .from("registrations")
       .select("team_name")
       .eq("id", id)
-      .single();
+      .maybeSingle();
 
     if (!reg) {
       return NextResponse.json({ error: "Registration not found" }, { status: 404 });
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
         .from("team_scores")
         .select("id")
         .eq("team_name", reg.team_name)
-        .single();
+        .maybeSingle();
 
       if (!existing) {
         await supabase.from("team_scores").insert([{

@@ -3,49 +3,21 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import {
-  Skull,
-  Target,
-  Medal,
-  RefreshCw,
-  ArrowLeft,
-  Crown,
-  Swords,
-  XCircle,
-} from "lucide-react";
+import { RefreshCw, ArrowLeft, Skull, ChevronUp } from "lucide-react";
 import Link from "next/link";
 import type { TeamScore } from "@/lib/supabase";
-
-const rankStyles: Record<number, { bg: string; border: string; icon: React.ReactNode; glow: string }> = {
-  1: {
-    bg: "from-yellow-500/30 to-amber-600/10",
-    border: "border-yellow-500/60",
-    icon: <Crown className="w-8 h-8 text-yellow-400 drop-shadow-lg" />,
-    glow: "shadow-yellow-500/30",
-  },
-  2: {
-    bg: "from-gray-300/30 to-gray-400/10",
-    border: "border-gray-400/60",
-    icon: <Medal className="w-8 h-8 text-gray-300 drop-shadow-lg" />,
-    glow: "shadow-gray-400/30",
-  },
-  3: {
-    bg: "from-amber-700/30 to-orange-800/10",
-    border: "border-amber-700/60",
-    icon: <Medal className="w-8 h-8 text-amber-600 drop-shadow-lg" />,
-    glow: "shadow-amber-600/30",
-  },
-};
 
 export default function ScoreboardPage() {
   const [teams, setTeams] = useState<(TeamScore & { rank: number })[]>([]);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [showEliminated, setShowEliminated] = useState(false);
 
   const fetchScores = async () => {
     setLoading(true);
     try {
       const res = await fetch("/api/teams?v=" + Date.now());
+      if (!res.ok) throw new Error("Failed to fetch");
       const data = await res.json();
       setTeams(data.teams || []);
       setLastUpdated(new Date());
@@ -58,205 +30,154 @@ export default function ScoreboardPage() {
 
   useEffect(() => {
     fetchScores();
-    const interval = setInterval(fetchScores, 30000); // auto-refresh every 30s
+    const interval = setInterval(fetchScores, 30000);
     return () => clearInterval(interval);
   }, []);
 
   const activeTeams = teams.filter((t) => !t.eliminated);
   const eliminatedTeams = teams.filter((t) => t.eliminated);
+  const top3 = activeTeams.slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-ff-darker">
-      {/* Header */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-ff-orange/20 via-transparent to-transparent" />
-        <div className="absolute inset-0 grid-bg opacity-30" />
-        
-        {/* Animated glow */}
-        <motion.div 
-          animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0.5, 0.3] }}
-          transition={{ duration: 3, repeat: Infinity }}
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-ff-orange/20 rounded-full blur-[120px]" 
-        />
+    <div className="min-h-screen bg-[#06060a] selection:bg-ff-orange/30">
+      {/* ── Top bar ─────────────────────────────────── */}
+      <header className="sticky top-0 z-50 bg-[#06060a]/80 backdrop-blur-md border-b border-white/[0.04]">
+        <div className="max-w-5xl mx-auto px-4 h-12 flex items-center justify-between">
+          <Link
+            href="/"
+            className="flex items-center gap-1.5 text-white/30 hover:text-white/60 transition-colors text-xs tracking-wide"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            Back
+          </Link>
 
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
-          <div className="flex items-center justify-between mb-6">
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-white/50 hover:text-ff-orange transition-colors text-sm"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to Main
-            </Link>
+          <div className="flex items-center gap-3">
+            {lastUpdated && (
+              <span className="text-white/15 text-[10px] font-mono">
+                {lastUpdated.toLocaleTimeString()}
+              </span>
+            )}
             <button
               onClick={fetchScores}
-              className="flex items-center gap-2 text-white/50 hover:text-ff-orange transition-colors text-sm"
+              className="text-white/25 hover:text-white/50 transition-colors"
             >
-              <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
-              Refresh
+              <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
             </button>
           </div>
+        </div>
+      </header>
 
-          <div className="text-center">
-            {/* Live indicator */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="inline-flex items-center gap-2 bg-ff-red/20 border border-ff-red/30 px-3 py-1 rounded-full mb-4"
-            >
-              <motion.span 
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 1, repeat: Infinity }}
-                className="w-2 h-2 bg-ff-red rounded-full"
-              />
-              <span className="text-ff-red text-xs font-bold uppercase tracking-wider">Live</span>
-            </motion.div>
+      {/* ── Hero header ────────────────────────────── */}
+      <div className="relative pt-10 pb-8 sm:pt-14 sm:pb-10">
+        {/* Subtle top glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] bg-ff-orange/[0.04] rounded-full blur-[100px] pointer-events-none" />
 
-            <div className="flex items-center justify-center gap-3 mb-3">
-              <Image
-                src="/images/csgc-logo.png"
-                alt="CSGC"
-                width={40}
-                height={40}
-                className="rounded-full border-2 border-ff-orange/40 shadow-lg shadow-ff-orange/20"
-              />
-              <span className="text-ff-orange text-xl font-bold">×</span>
-              <Image
-                src="/images/FFMIC.png"
-                alt="FFMIC"
-                width={40}
-                height={40}
-                className="rounded-full border-2 border-ff-maroon/40 shadow-lg"
-              />
-            </div>
-
-            <h1 className="text-3xl sm:text-5xl font-black uppercase tracking-tight">
-              <span className="bg-gradient-to-r from-ff-orange via-ff-yellow to-ff-red bg-clip-text text-transparent">
-                Live Scoreboard
-              </span>
-            </h1>
-            <p className="text-white/30 text-xs sm:text-sm mt-2 font-mono">
-              Free Fire MAX Tournament — April 18, 2026
-            </p>
-            {lastUpdated && (
-              <p className="text-white/20 text-[10px] mt-1">
-                Last updated: {lastUpdated.toLocaleTimeString()}
-              </p>
-            )}
+        <div className="relative max-w-5xl mx-auto px-4 text-center">
+          {/* Live badge */}
+          <div className="inline-flex items-center gap-1.5 mb-5">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-500" />
+            </span>
+            <span className="text-red-400/80 text-[10px] font-semibold uppercase tracking-[0.2em]">
+              Live
+            </span>
           </div>
 
-          {/* Stats bar */}
-          <div className="flex items-center justify-center gap-6 sm:gap-10 mt-8">
+          {/* Logos + title */}
+          <div className="flex items-center justify-center gap-2.5 mb-3">
+            <Image
+              src="/images/csgc-logo.png"
+              alt="CSGC"
+              width={32}
+              height={32}
+              className="rounded-full opacity-80"
+            />
+            <span className="text-white/15 text-sm font-light">×</span>
+            <Image
+              src="/images/FFMIC.png"
+              alt="FFMIC"
+              width={32}
+              height={32}
+              className="rounded-full opacity-80"
+            />
+          </div>
+
+          <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white/90">
+            Scoreboard
+          </h1>
+          <p className="text-white/20 text-[11px] font-mono mt-1.5 tracking-widest">
+            FREE FIRE MAX — 18 APR 2026
+          </p>
+
+          {/* Stats row */}
+          <div className="flex items-center justify-center gap-8 mt-7">
             <div className="text-center">
-              <motion.div 
-                whileHover={{ scale: 1.1 }}
-                className="bg-white/5 border border-white/10 rounded-2xl px-6 py-3"
-              >
-                <p className="text-3xl sm:text-4xl font-black text-ff-orange drop-shadow-lg">
-                  {teams.length}
-                </p>
-                <p className="text-white/30 text-[10px] uppercase tracking-widest">
-                  Teams
-                </p>
-              </motion.div>
+              <p className="text-2xl font-black text-white/80 tabular-nums">{teams.length}</p>
+              <p className="text-[9px] text-white/20 uppercase tracking-[0.15em] mt-0.5">Teams</p>
             </div>
-            <div className="w-px h-12 bg-gradient-to-b from-transparent via-ff-orange/30 to-transparent" />
+            <div className="w-px h-6 bg-white/[0.06]" />
             <div className="text-center">
-              <motion.div 
-                whileHover={{ scale: 1.1 }}
-                className="bg-green-500/10 border border-green-500/20 rounded-2xl px-6 py-3"
-              >
-                <p className="text-3xl sm:text-4xl font-black text-green-400 drop-shadow-lg">
-                  {activeTeams.length}
-                </p>
-                <p className="text-white/30 text-[10px] uppercase tracking-widest">
-                  Alive
-                </p>
-              </motion.div>
+              <p className="text-2xl font-black text-green-400/80 tabular-nums">{activeTeams.length}</p>
+              <p className="text-[9px] text-white/20 uppercase tracking-[0.15em] mt-0.5">Alive</p>
             </div>
-            <div className="w-px h-12 bg-gradient-to-b from-transparent via-ff-red/30 to-transparent" />
+            <div className="w-px h-6 bg-white/[0.06]" />
             <div className="text-center">
-              <motion.div 
-                whileHover={{ scale: 1.1 }}
-                className="bg-ff-red/10 border border-ff-red/20 rounded-2xl px-6 py-3"
-              >
-                <p className="text-3xl sm:text-4xl font-black text-ff-red drop-shadow-lg">
-                  {eliminatedTeams.length}
-                </p>
-                <p className="text-white/30 text-[10px] uppercase tracking-widest">
-                  KO
-                </p>
-              </motion.div>
+              <p className="text-2xl font-black text-red-400/60 tabular-nums">{eliminatedTeams.length}</p>
+              <p className="text-[9px] text-white/20 uppercase tracking-[0.15em] mt-0.5">Out</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
+      {/* ── Main content ───────────────────────────── */}
+      <div className="max-w-5xl mx-auto px-4 pb-20">
         {loading && teams.length === 0 ? (
-          <div className="text-center py-20">
-            <RefreshCw className="w-8 h-8 text-ff-orange animate-spin mx-auto mb-4" />
-            <p className="text-white/40 text-sm">Loading scores...</p>
+          <div className="text-center py-24">
+            <RefreshCw className="w-5 h-5 text-white/20 animate-spin mx-auto mb-3" />
+            <p className="text-white/20 text-sm">Loading scores...</p>
           </div>
         ) : teams.length === 0 ? (
-          <div className="text-center py-20">
-            <Swords className="w-12 h-12 text-white/20 mx-auto mb-4" />
-            <p className="text-white/40 text-lg font-bold">No teams registered yet</p>
-            <p className="text-white/20 text-sm mt-1">Scores will appear here once the tournament begins</p>
+          <div className="text-center py-24">
+            <p className="text-white/20 text-sm">No teams registered yet</p>
           </div>
         ) : (
           <>
-            {/* Top 3 Podium (on desktop) */}
-            {activeTeams.length >= 3 && (
-              <div className="hidden lg:flex items-end justify-center gap-6 mb-16 mt-8">
-                {[1, 0, 2].map((podiumIndex) => {
-                  const team = activeTeams[podiumIndex];
+            {/* ── Top 3 podium (desktop) ──────────── */}
+            {top3.length >= 3 && (
+              <div className="hidden lg:grid grid-cols-3 gap-3 mb-10">
+                {[1, 0, 2].map((idx) => {
+                  const team = top3[idx];
                   if (!team) return null;
-                  const ranks = { 0: 2, 1: 1, 2: 3 };
-                  const rank = ranks[podiumIndex as 0|1|2];
-                  const heights = { 1: "h-48", 2: "h-36", 3: "h-28" };
-                  const podiumColors = {
-                    1: "from-yellow-500/40 to-amber-600/20 border-yellow-500",
-                    2: "from-gray-300/40 to-gray-400/20 border-gray-400",
-                    3: "from-amber-700/40 to-orange-800/20 border-amber-700",
+                  const rank = idx === 0 ? 2 : idx === 1 ? 1 : 3;
+                  const accents = {
+                    1: { border: "border-amber-500/30", text: "text-amber-400", bg: "bg-amber-500/[0.04]", label: "1ST" },
+                    2: { border: "border-white/10", text: "text-white/50", bg: "bg-white/[0.02]", label: "2ND" },
+                    3: { border: "border-amber-700/20", text: "text-amber-600/70", bg: "bg-amber-800/[0.03]", label: "3RD" },
                   };
+                  const a = accents[rank as 1 | 2 | 3];
 
                   return (
                     <motion.div
                       key={team.team_name}
-                      initial={{ opacity: 0, y: 80, scale: 0.8 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      transition={{ delay: podiumIndex * 0.2, duration: 0.6, type: "spring" }}
-                      className="text-center w-56"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.1, duration: 0.4 }}
+                      className={`relative rounded-xl border ${a.border} ${a.bg} p-5 ${rank === 1 ? "lg:-mt-4 lg:pb-7" : ""}`}
                     >
-                      <motion.div 
-                        whileHover={{ scale: 1.05 }}
-                        className="relative"
-                      >
-                        {/* Glow effect */}
-                        <div className={`absolute -inset-2 bg-gradient-to-t ${podiumColors[rank as 1|2|3].split(' ')[0]} rounded-2xl blur-xl opacity-50`} />
-                        <div className="relative bg-black/40 backdrop-blur-sm border-t-2 border-white/20 rounded-2xl p-4">
-                          <div className="mb-2">
-                            {rankStyles[rank]?.icon}
-                          </div>
-                          <p className="text-white font-bold text-sm truncate px-2">
-                            {team.team_name}
-                          </p>
-                          <p className="text-4xl font-black text-transparent bg-gradient-to-r from-ff-orange to-ff-yellow bg-clip-text">
-                            {team.total_points}
-                          </p>
-                          <p className="text-white/30 text-[10px] uppercase tracking-widest">
-                            Points
-                          </p>
-                        </div>
-                      </motion.div>
-                      <div
-                        className={`${heights[rank as 1 | 2 | 3]} mt-2 bg-gradient-to-t ${podiumColors[rank as 1|2|3]} border-t-4 rounded-t-xl flex items-center justify-center`}
-                      >
-                        <span className="text-5xl font-black text-white/20">
-                          {rank}
+                      <div className="flex items-start justify-between mb-3">
+                        <span className={`text-[10px] font-black uppercase tracking-widest ${a.text}`}>
+                          {a.label}
                         </span>
+                        <span className={`text-3xl font-black tabular-nums ${a.text}`}>
+                          {team.total_points}
+                        </span>
+                      </div>
+                      <p className="text-white/80 font-bold text-sm truncate">{team.team_name}</p>
+                      <div className="flex items-center gap-3 mt-2 text-[11px] text-white/25 font-mono">
+                        <span>{team.kills} kills</span>
+                        <span>{team.placement_points} place</span>
+                        <span>R{team.rounds_played}</span>
                       </div>
                     </motion.div>
                   );
@@ -264,74 +185,82 @@ export default function ScoreboardPage() {
               </div>
             )}
 
-            {/* Active Teams Table */}
-            <div className="mb-12">
-              <h2 className="text-lg sm:text-xl font-bold text-white mb-4 flex items-center gap-2">
-                <Target className="w-5 h-5 text-green-400" />
-                Active Teams
-              </h2>
-
+            {/* ── Table ───────────────────────────── */}
+            <div className="rounded-xl border border-white/[0.04] overflow-hidden">
               {/* Table header */}
-              <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-2 text-white/30 text-[10px] uppercase tracking-widest font-medium">
+              <div className="grid grid-cols-12 gap-2 px-4 py-2.5 bg-white/[0.02] text-[10px] text-white/20 uppercase tracking-[0.15em] font-medium">
                 <div className="col-span-1">#</div>
-                <div className="col-span-4">Team</div>
-                <div className="col-span-2 text-center">Kills</div>
-                <div className="col-span-2 text-center">Placement</div>
-                <div className="col-span-2 text-center">Total</div>
-                <div className="col-span-1 text-center">Rounds</div>
+                <div className="col-span-5 sm:col-span-4">Team</div>
+                <div className="col-span-2 text-right sm:text-center">Kills</div>
+                <div className="hidden sm:block col-span-2 text-center">Place</div>
+                <div className="col-span-2 text-right sm:text-center">Pts</div>
+                <div className="col-span-2 sm:col-span-1 text-right">Rnd</div>
               </div>
 
-              <div className="space-y-2">
+              {/* Rows */}
+              <div>
                 <AnimatePresence>
                   {activeTeams.map((team, i) => {
-                    const style = rankStyles[team.rank || i + 1];
+                    const isTop3 = (team.rank || i + 1) <= 3;
                     return (
                       <motion.div
                         key={team.team_name}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20 }}
-                        transition={{ duration: 0.3, delay: i * 0.05 }}
-                        className={`grid grid-cols-12 gap-2 items-center px-4 py-3 rounded-xl border transition-colors ${
-                          style
-                            ? `bg-gradient-to-r ${style.bg} ${style.border}`
-                            : "bg-white/[0.03] border-white/5 hover:border-white/10"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2, delay: i * 0.02 }}
+                        className={`grid grid-cols-12 gap-2 items-center px-4 py-2.5 border-t border-white/[0.03] transition-colors hover:bg-white/[0.02] ${
+                          isTop3 ? "bg-white/[0.01]" : ""
                         }`}
                       >
-                        <div className="col-span-2 sm:col-span-1">
+                        {/* Rank */}
+                        <div className="col-span-1">
                           <span
-                            className={`text-lg font-black ${
-                              (team.rank || 0) <= 3
-                                ? "text-ff-orange"
-                                : "text-white/30"
+                            className={`text-sm font-bold tabular-nums ${
+                              team.rank === 1
+                                ? "text-amber-400"
+                                : team.rank === 2
+                                ? "text-white/40"
+                                : team.rank === 3
+                                ? "text-amber-600/70"
+                                : "text-white/15"
                             }`}
                           >
                             {team.rank}
                           </span>
                         </div>
-                        <div className="col-span-6 sm:col-span-4">
-                          <p className="text-white font-bold text-sm truncate">
+
+                        {/* Name */}
+                        <div className="col-span-5 sm:col-span-4 min-w-0">
+                          <p className={`font-semibold text-[13px] truncate ${isTop3 ? "text-white/90" : "text-white/60"}`}>
                             {team.team_name}
                           </p>
                         </div>
-                        <div className="col-span-4 sm:col-span-2 flex items-center justify-end sm:justify-center gap-1">
-                          <Skull className="w-3 h-3 text-ff-red/60 sm:hidden" />
-                          <span className="text-white/80 text-sm font-mono">
+
+                        {/* Kills */}
+                        <div className="col-span-2 text-right sm:text-center">
+                          <span className="text-white/50 text-sm font-mono tabular-nums">
                             {team.kills}
                           </span>
                         </div>
-                        <div className="hidden sm:flex col-span-2 items-center justify-center">
-                          <span className="text-white/80 text-sm font-mono">
+
+                        {/* Placement */}
+                        <div className="hidden sm:block col-span-2 text-center">
+                          <span className="text-white/35 text-sm font-mono tabular-nums">
                             {team.placement_points}
                           </span>
                         </div>
-                        <div className="hidden sm:flex col-span-2 items-center justify-center">
-                          <span className="text-ff-orange font-bold text-base">
+
+                        {/* Total */}
+                        <div className="col-span-2 text-right sm:text-center">
+                          <span className={`text-sm font-bold tabular-nums ${isTop3 ? "text-ff-orange" : "text-white/50"}`}>
                             {team.total_points}
                           </span>
                         </div>
-                        <div className="hidden sm:flex col-span-1 items-center justify-center">
-                          <span className="text-white/40 text-sm font-mono">
+
+                        {/* Rounds */}
+                        <div className="col-span-2 sm:col-span-1 text-right">
+                          <span className="text-white/20 text-xs font-mono tabular-nums">
                             {team.rounds_played}
                           </span>
                         </div>
@@ -342,54 +271,56 @@ export default function ScoreboardPage() {
               </div>
             </div>
 
-            {/* Eliminated Teams */}
+            {/* ── Eliminated ─────────────────────── */}
             {eliminatedTeams.length > 0 && (
-              <div>
-                <h2 className="text-lg sm:text-xl font-bold text-white/50 mb-4 flex items-center gap-2">
-                  <XCircle className="w-5 h-5 text-ff-red/60" />
-                  Eliminated
-                </h2>
-                <div className="space-y-2">
-                  {eliminatedTeams.map((team, i) => (
+              <div className="mt-6">
+                <button
+                  onClick={() => setShowEliminated(!showEliminated)}
+                  className="flex items-center gap-2 text-white/20 hover:text-white/35 transition-colors text-xs uppercase tracking-widest font-medium mb-3"
+                >
+                  <Skull className="w-3.5 h-3.5" />
+                  Eliminated ({eliminatedTeams.length})
+                  <ChevronUp
+                    className={`w-3 h-3 transition-transform ${showEliminated ? "" : "rotate-180"}`}
+                  />
+                </button>
+
+                <AnimatePresence>
+                  {showEliminated && (
                     <motion.div
-                      key={team.team_name}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: i * 0.05 }}
-                      className="flex items-center justify-between px-4 py-3 bg-ff-red/5 border border-ff-red/10 rounded-xl opacity-60"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="overflow-hidden rounded-xl border border-red-500/[0.06]"
                     >
-                      <div className="flex items-center gap-3">
-                        <XCircle className="w-4 h-4 text-ff-red/40" />
-                        <span className="text-white/40 text-sm line-through">
-                          {team.team_name}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-4 text-white/30 text-xs font-mono">
-                        <span>{team.kills} kills</span>
-                        <span>{team.total_points} pts</span>
-                      </div>
+                      {eliminatedTeams.map((team) => (
+                        <div
+                          key={team.team_name}
+                          className="flex items-center justify-between px-4 py-2 border-t first:border-t-0 border-red-500/[0.04] bg-red-500/[0.02]"
+                        >
+                          <span className="text-white/20 text-[13px] line-through decoration-red-500/20">
+                            {team.team_name}
+                          </span>
+                          <div className="flex items-center gap-3 text-white/15 text-[11px] font-mono">
+                            <span>{team.kills}k</span>
+                            <span>{team.total_points}pts</span>
+                          </div>
+                        </div>
+                      ))}
                     </motion.div>
-                  ))}
-                </div>
+                  )}
+                </AnimatePresence>
               </div>
             )}
           </>
         )}
       </div>
 
-      {/* Footer */}
-      <div className="border-t border-white/5 py-8 text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-ff-orange/5 via-transparent to-ff-red/5" />
-        <div className="relative">
-          <p className="text-white/40 text-sm font-medium">
-            CSGC × FFMIC — Free Fire MAX Tournament
-          </p>
-          <div className="flex items-center justify-center gap-2 mt-2">
-            <span className="text-white/20 text-[10px]">Auto-refresh</span>
-            <span className="w-1 h-1 bg-ff-orange/50 rounded-full" />
-            <span className="text-white/20 text-[10px]">30s</span>
-          </div>
-        </div>
+      {/* ── Footer ─────────────────────────────────── */}
+      <div className="border-t border-white/[0.03] py-6 text-center">
+        <p className="text-white/10 text-[10px] font-mono tracking-widest">
+          CSGC × FFMIC — Auto-refresh 30s
+        </p>
       </div>
     </div>
   );

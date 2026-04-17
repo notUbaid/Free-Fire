@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       .from("team_scores")
       .select("id")
       .eq("team_name", teamName)
-      .single();
+      .maybeSingle();
 
     if (existing) {
       return NextResponse.json({ error: "Team already in scoreboard" }, { status: 400 });

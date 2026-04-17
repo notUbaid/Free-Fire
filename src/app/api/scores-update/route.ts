@@ -11,11 +11,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
 
+    const allowedFields = ["kills", "placement_points", "rounds_played", "eliminated"];
+    if (!allowedFields.includes(field)) {
+      return NextResponse.json({ error: "Invalid field" }, { status: 400 });
+    }
+
     const updateData: Record<string, any> = { [field]: value, updated_at: new Date().toISOString() };
 
     // Auto-calculate total_points when kills or placement changes
     if (field === "kills" || field === "placement_points") {
-      const { data: team } = await supabase.from("team_scores").select("kills, placement_points").eq("id", id).single();
+      const { data: team } = await supabase.from("team_scores").select("kills, placement_points").eq("id", id).maybeSingle();
       const newKills = field === "kills" ? value : (team?.kills || 0);
       const newPlacement = field === "placement_points" ? value : (team?.placement_points || 0);
       updateData.total_points = newKills + newPlacement;
