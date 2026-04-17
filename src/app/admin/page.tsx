@@ -221,6 +221,20 @@ function AdminPage() {
             >
               Debug Teams
             </button>
+            <button 
+              onClick={async () => {
+                const res = await fetch('/api/admin-sync', {
+                  method: 'POST',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({ password })
+                });
+                if (res.ok) { alert('Sync complete!'); window.location.reload(); }
+                else { alert('Sync failed'); }
+              }} 
+              className="bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded-lg"
+            >
+              Sync Scores
+            </button>
             <button onClick={() => window.location.reload()} className="text-orange-500 text-sm hover:underline">
               Refresh
             </button>
