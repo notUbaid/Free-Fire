@@ -179,20 +179,12 @@ export default function HeroSection() {
           className="mt-7 sm:mt-8 flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto"
         >
           <motion.a
-            href="#register"
+            href="/score"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             className="w-full sm:w-auto bg-ff-orange hover:bg-ff-orange/90 text-white font-bold text-sm sm:text-base px-8 py-3.5 rounded-xl tracking-wide uppercase text-center"
           >
-            Register Now
-          </motion.a>
-          <motion.a
-            href="#about"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="w-full sm:w-auto border border-white/12 hover:border-white/25 text-white/70 hover:text-white font-semibold text-sm sm:text-base px-8 py-3.5 rounded-xl tracking-wide uppercase text-center"
-          >
-            Learn More
+            Score
           </motion.a>
         </motion.div>
       </div>
