@@ -213,7 +213,8 @@ export default function ScoreboardPage() {
                 {[1, 0, 2].map((podiumIndex) => {
                   const team = activeTeams[podiumIndex];
                   if (!team) return null;
-                  const rank = podiumIndex === 0 ? 2 : podiumIndex === 1 ? 1 : 3;
+                  const ranks = { 0: 2, 1: 1, 2: 3 };
+                  const rank = ranks[podiumIndex as 0|1|2];
                   const heights = { 1: "h-48", 2: "h-36", 3: "h-28" };
                   const podiumColors = {
                     1: "from-yellow-500/40 to-amber-600/20 border-yellow-500",
