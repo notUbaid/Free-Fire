@@ -4,7 +4,6 @@ import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
-import RegistrationForm from "@/components/RegistrationForm";
 import RulesSection from "@/components/RulesSection";
 import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
@@ -18,7 +17,6 @@ export default function Home() {
       <HeroSection />
       <AboutSection />
       <RulesSection />
-      <RegistrationForm />
       <FAQSection />
       <ContactSection />
       <Footer />
