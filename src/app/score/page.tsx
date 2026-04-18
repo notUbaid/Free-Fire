@@ -143,48 +143,6 @@ export default function ScoreboardPage() {
           </div>
         ) : (
           <>
-            {/* ── Top 3 podium (desktop) ──────────── */}
-            {top3.length >= 3 && (
-              <div className="hidden lg:grid grid-cols-3 gap-3 mb-10">
-                {[1, 0, 2].map((idx) => {
-                  const team = top3[idx];
-                  if (!team) return null;
-                  const rank = idx === 0 ? 2 : idx === 1 ? 1 : 3;
-                  const accents = {
-                    1: { border: "border-amber-500/30", text: "text-amber-400", bg: "bg-amber-500/[0.04]", label: "1ST" },
-                    2: { border: "border-white/10", text: "text-white/50", bg: "bg-white/[0.02]", label: "2ND" },
-                    3: { border: "border-amber-700/20", text: "text-amber-600/70", bg: "bg-amber-800/[0.03]", label: "3RD" },
-                  };
-                  const a = accents[rank as 1 | 2 | 3];
-
-                  return (
-                    <motion.div
-                      key={team.team_name}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: idx * 0.1, duration: 0.4 }}
-                      className={`relative rounded-xl border ${a.border} ${a.bg} p-5 ${rank === 1 ? "lg:-mt-4 lg:pb-7" : ""}`}
-                    >
-                      <div className="flex items-start justify-between mb-3">
-                        <span className={`text-[10px] font-black uppercase tracking-widest ${a.text}`}>
-                          {a.label}
-                        </span>
-                        <span className={`text-3xl font-black tabular-nums ${a.text}`}>
-                          {team.total_points}
-                        </span>
-                      </div>
-                      <p className="text-white/80 font-bold text-sm truncate">{team.team_name}</p>
-                      <div className="flex items-center gap-3 mt-2 text-[11px] text-white/25 font-mono">
-                        <span>{team.kills} kills</span>
-                        <span>{team.placement_points} place</span>
-                        <span>R{team.rounds_played}</span>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            )}
-
             {/* ── Table ───────────────────────────── */}
             <div className="rounded-xl border border-white/[0.04] overflow-hidden">
               {/* Table header */}
