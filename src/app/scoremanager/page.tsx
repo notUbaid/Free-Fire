@@ -141,16 +141,16 @@ function ScoreManagerPage() {
                     <td className="p-3">
                       <input
                         type="number"
-                        value={team.kills}
-                        onChange={(e) => updateScore(team.id, "kills", parseInt(e.target.value) || 0)}
+                        defaultValue={team.kills}
+                        onBlur={(e) => updateScore(team.id, "kills", parseInt(e.target.value) || 0)}
                         className="w-16 bg-gray-700 text-white px-2 py-1 rounded"
                       />
                     </td>
                     <td className="p-3">
                       <input
                         type="number"
-                        value={team.placement_points}
-                        onChange={(e) => updateScore(team.id, "placement_points", parseInt(e.target.value) || 0)}
+                        defaultValue={team.placement_points}
+                        onBlur={(e) => updateScore(team.id, "placement_points", parseInt(e.target.value) || 0)}
                         className="w-16 bg-gray-700 text-white px-2 py-1 rounded"
                       />
                     </td>
@@ -160,8 +160,8 @@ function ScoreManagerPage() {
                     <td className="p-3">
                       <input
                         type="number"
-                        value={team.rounds_played}
-                        onChange={(e) => updateScore(team.id, "rounds_played", parseInt(e.target.value) || 0)}
+                        defaultValue={team.rounds_played}
+                        onBlur={(e) => updateScore(team.id, "rounds_played", parseInt(e.target.value) || 0)}
                         className="w-16 bg-gray-700 text-white px-2 py-1 rounded"
                       />
                     </td>
