@@ -137,7 +137,14 @@ function ScoreManagerPage() {
               <tbody>
                 {teams.map((team) => (
                   <tr key={team.id} className="border-t border-gray-700">
-                    <td className="p-3 text-orange-500 font-bold">{team.team_name}</td>
+                    <td className="p-3">
+                      <input
+                        type="text"
+                        defaultValue={team.team_name}
+                        onBlur={(e) => updateScore(team.id, "team_name", e.target.value)}
+                        className="bg-gray-700 text-orange-500 font-bold px-2 py-1 rounded w-full"
+                      />
+                    </td>
                     <td className="p-3">
                       <input
                         type="number"

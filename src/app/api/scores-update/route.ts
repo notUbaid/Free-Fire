@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid password" }, { status: 401 });
     }
 
-    const allowedFields = ["kills", "placement_points", "rounds_played", "eliminated"];
+    const allowedFields = ["team_name", "kills", "placement_points", "rounds_played", "eliminated"];
     if (!allowedFields.includes(field)) {
       return NextResponse.json({ error: "Invalid field" }, { status: 400 });
     }
