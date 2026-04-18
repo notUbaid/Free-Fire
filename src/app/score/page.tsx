@@ -34,9 +34,27 @@ export default function ScoreboardPage() {
     return () => clearInterval(interval);
   }, []);
 
-  const activeTeams = teams.filter((t) => !t.eliminated);
-  const eliminatedTeams = teams.filter((t) => t.eliminated);
-  const top3 = activeTeams.slice(0, 3);
+  // Sort teams: active first by points (desc), then eliminated
+  const sortedTeams = [...teams].sort((a, b) => {
+    if (a.eliminated !== b.eliminated) return a.eliminated ? 1 : -1;
+    return b.total_points - a.total_points;
+  });
+
+  // Assign ranks separately for active and eliminated
+  let activeRank = 0;
+  let eliminatedRank = 0;
+  const rankedTeams = sortedTeams.map(t => {
+    if (!t.eliminated) {
+      activeRank++;
+      return { ...t, rank: activeRank };
+    } else {
+      eliminatedRank++;
+      return { ...t, rank: eliminatedRank, isEliminated: true };
+    }
+  });
+
+  const activeTeams = rankedTeams.filter((t) => !t.eliminated);
+  const eliminatedTeams = rankedTeams.filter((t) => t.eliminated);
 
   return (
     <div className="min-h-screen bg-[#06060a] selection:bg-ff-orange/30">
@@ -159,10 +177,10 @@ export default function ScoreboardPage() {
               <div>
                 <AnimatePresence>
                   {activeTeams.map((team, i) => {
-                    const isTop3 = (team.rank || i + 1) <= 3;
+                    const isTop3 = (team.rank || 0) <= 3;
                     return (
                       <motion.div
-                        key={team.team_name}
+                        key={team.id || team.team_name}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -253,12 +271,15 @@ export default function ScoreboardPage() {
                     >
                       {eliminatedTeams.map((team) => (
                         <div
-                          key={team.team_name}
+                          key={team.id || team.team_name}
                           className="flex items-center justify-between px-4 py-2 border-t first:border-t-0 border-red-500/[0.04] bg-red-500/[0.02]"
                         >
-                          <span className="text-white/20 text-[13px] line-through decoration-red-500/20">
-                            {team.team_name}
-                          </span>
+                          <div className="flex items-center gap-3">
+                            <span className="text-white/20 text-[10px] font-mono">#{team.rank}</span>
+                            <span className="text-white/20 text-[13px] line-through decoration-red-500/20">
+                              {team.team_name}
+                            </span>
+                          </div>
                           <div className="flex items-center gap-3 text-white/15 text-[11px] font-mono">
                             <span>{team.kills}k</span>
                             <span>{team.total_points}pts</span>
